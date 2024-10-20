@@ -1,0 +1,58 @@
+.UserInput {
+    border: solid 2px #276678;
+    height: 20px;
+    width: 150px;
+    margin-bottom: 10px;
+    margin-top: 3px;
+
+}
+
+#information{
+    border: solid 5px #276678;
+    background-color:#D3E0EA;
+    color: #1687A7;
+    padding: 20px;
+    width: 500px;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -240px;
+}
+
+#bio {
+    height: 100px;
+    width: 400px;  
+    border: solid 1px #1687A7;  
+}
+
+#UserTypeDiv {
+    border: solid 4px #276678;
+    background-color: #FFBC37;
+    color: #276678;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+#errorPwd {
+    color: red;
+    font-size: smaller; 
+}
+
+#errorBirthDate {
+    color: red;
+    font-size: smaller; 
+}
+
+#Impresa {
+    margin-top: 20px;
+}
+
+
+
+body {
+    margin: 0px;
+    padding: 0;
+    font-family: Verdana, Arial, Serif;
+    background-color: #F6F5F5;
+}
