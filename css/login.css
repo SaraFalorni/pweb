@@ -1,3 +1,7 @@
+body {
+    background-color: #F6F5F5;
+}
+
 #fcredenziali {
     border: solid 2px #276678;
     background-color:#1687A7;
@@ -5,15 +9,19 @@
     padding: 20px;
     width: 300px;
     font-weight: bold;
-    position: absolute;
+   /* position: absolute;
     top: 50%;
     left: 50%;
-    margin-left: -180px;
+    margin-left: -180px;*/
 }
 
 
-
-
-body {
-    background-color: #F6F5F5;
+.loginmainContent{
+    display: flex;
+    justify-content:center;
+    padding-top: 120px;
+    align-items: center;
+    flex-direction: column;
 }
+
+

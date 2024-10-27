@@ -8,9 +8,139 @@ body {
   header {
     background-color: #1687A7;
     color: #F6F5F5;
-    padding: 20px;
+    padding: 9px;  /* ---------------------- */
   }
+  .imglogo {
+    height:32px;
+    width: 222px;
+  }
+  
+.handy-slogan {
+    background-color: #276678;
+    color: white;
+    padding: 2rem 1rem;
+    text-align: center;
+}
 
+.handy-slogan h1 {
+  color: #FFBD36;
+  font-size: 2.5rem;
+   margin-bottom: 1rem;
+}
+
+.handy-slogan p {
+    margin-bottom: 2rem;
+    color: #e2e8f0;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #FFBD36;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* transizione di colore animata */
+    border-color: transparent;
+}
+
+.btn:hover {
+    background-color: #D3E0EA;
+}
+
+.btn-secondario {
+  background-color: #1687A7;
+  color:white;
+}
+.btn-secondario:hover {
+  background-color: #FFBD36;
+  color:black;
+}
+  /*-------------------------------------------*/
+  .come-funziona {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.come-funziona h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2d3748;
+}
+
+.steps {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.step {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+    padding: 1rem;
+}
+
+.num-step {
+    background-color: #1687A7;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-weight: bold;
+}
+/*-------------------------------------------*/
+.footer {
+  background-color: #1687A7;
+  color: white;
+  padding: 1.2rem 1rem;
+  text-align: center;
+  position: fixed;
+  /*display: flex;*/
+  bottom: 0;
+  width: 100%;
+}
+
+.footer p {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+/*-------------------------------------------*/ 
+.callimprese {
+  background-color: white;
+  padding: 2rem 0 2rem;
+}
+.boximprese {
+  display: flex;          /* Abilita flexbox */
+  justify-content: center; /* Centra orizzontalmente */
+  gap: 20px;             /* Spazio tra i box */
+}
+
+.box {
+  /*width: 200px;
+  height: 200px;*/
+  vertical-align: middle;
+}
+.callimprese h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+/*-------------------------------------------*/
+
+input[type="text"], input[type="password"]  {
+  width: 180px;
+  padding: 6px 9px;
+  border: 2px solid #276678;
+  border-radius: 4px;
+  outline: none;
+}
+/*-------------------------------------------*/
   nav {
     list-style: none;
     margin: 0;
@@ -34,8 +164,9 @@ body {
   .mainContent {
 	padding: 12px 30px 12px 30px;
 	}
-	h1 {
-	margin-left: 12px;
+
+	h1, h2 {
+	  /*margin-left: 12px;*/
     color: #276678;
 	}
 
@@ -48,4 +179,17 @@ body {
   background-color:  #276678;
   padding: 10px;
   font-weight: bold;
+}
+
+.UserInput {
+  /*border: solid 2px #276678;
+  height: 20px;
+  width: 150px; */
+  margin-bottom: 10px;
+  margin-top: 3px;
+  /*width: 180px;
+  padding: 6px 9px;
+  border: 2px solid #276678;
+  border-radius: 4px;
+  outline: none;*/
 }

@@ -3,12 +3,28 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/signUp.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
         <script type="text/javascript" src="../js/signUp.js"></script> 
     </head>
 <body>
-    <h1>Registrati</h1> <br/>
+<header>
     
-    <form action="../php/signUp.php" method="POST" id="information">
+  <img class="imglogo" src="../img/logo.png" alt="Logo" > <span>&nbsp;</span>
+
+  </header>
+   <nav>
+    <ul>
+      <li><a href="../index.html">Home</a></li>
+      <!-- <li><a href="#" id="info" >Informazioni sul sito</a></li> -->
+      <li><a href="./signUp.html">Registrati</a></li>
+      <li><a href="../html/login.html">Accedi</a></li>
+    </ul>
+  </nav>
+  <hr>
+  <div class="regmainContent" >
+    <h1 id="h1Registrati">Registrati</h1> <br/>
+    <div>Sei già registrato? Clicca <a href="../html/login.html" > qui</a> per accedere</div> <br/>
+    <form action="../php/signUpDB.php" method="POST" id="information">
         <div id ="UserTypeDiv"> Scegli il tipo di profilo da Registrare <br/>           
             <label for="cliente"> Cliente </label>
             <input type="radio" id="cliente" name="UserType" value="cliente" checked onclick="NewUserIsBuilder();"> <br/>
@@ -16,20 +32,20 @@
             <input type="radio" id="impresa" name="UserType" value="impresa" onclick="NewUserIsBuilder();"> <br/> 
         </div>
          UserID <br/> <input type="text" class="UserInput" name="UserID" > <br/>
-         Nome <br/> <input type="text" class="UserInput" name="nome"> <br/>
-         Cognome <br/> <input type="text" class="UserInput" name="cognome"> <br/>
+         Nome <br/> <input type="text" class="UserInput testoesteso" name="nome"> <br/>
+         Cognome <br/> <input type="text" class="UserInput testoesteso" name="cognome"> <br/>
          email <br/> <input type="text" class="UserInput" name="email"> <br/>
-         password <br/> <input type="password" class="UserInput" id="pwd" name="pwd"> <br/>
-         conferma password <br/> <input type="password" class="UserInput" id="cpwd" name="cpwd" onblur="checkPasswordString()" > 
+         Password <br/> <input type="password" class="UserInput" id="pwd" name="pwd"> <br/>
+         Conferma password <br/> <input type="password" class="UserInput" id="cpwd" name="cpwd" onblur="checkPasswordString()" > 
          <label id="errorPwd" style="display:none;">le password inserite differiscono</label> <br/>
          Data Di Nascita <br/> <input type="date" class="UserInput" id="birthDate" name="birthDate" onblur="checkBirthDate()"> 
          <label id="errorBirthDate" style="display:none;">Data di Nascita non accettabile</label> <br/>
-         Indirizzo <br/> <input type="text" class="UserInput" name="indirizzo"> <br/>
-         Foto <br/> <input type="file" id="UserPicture" name="foto" accept="image/png, image/jpeg" /> <br/>
+         Indirizzo <br/> <input type="text" class="UserInput testoesteso" name="indirizzo"> <br/>
+         Foto <br/> <input class="btn-secondario" type="file" id="UserPicture" name="foto" accept="image/png, image/jpeg" /> <br/>
         
 
           <div name="Impresa" id="Impresa" style="display:none;">
-            Nome dell'Impresa <br/> <input type="text" class="UserInput" name = "nomeImpresa"> <br/>
+           <p> Nome dell'Impresa <br/> <input type="text" class="UserInput testoesteso" name = "nomeImpresa"> </p>
             <label for="Regione">Regione</label>
                 <select name="Regione" id="Regione" onclick = "emptyOptionsProvincia();">
                     <option disabled selected value> -- Scegli la regione -- </option>
@@ -55,21 +71,20 @@
                     <option value="Veneto">Veneto</option>
                 </select> &nbsp; &nbsp; 
                 <label for="Provincia">Provincia</label>
-                <select name="Provincia" id="Provincia" name= "provincia" onclick="findProvincia();" >
+                <select name="Provincia" id="Provincia" onclick="findProvincia();" >
                     <option disabled selected value> -- Scegli la provincia -- </option>                    
+                </select> <br/> <br/>
+                <label for="Comune">Comune</label>
+                <select name="Comune" id="Comune" onfocus="LoadComuni();" >
+                     <option disabled selected value> -- Scegli il comune -- </option>
                 </select> <br/>
-
-                <select name="Comune" id="Comune" name= "comune"  >
-                    <?php include 'listComuni.php';?>                    
-                </select> <br/>
-
-                Comune <br/> <input type="text" name="Comune" class="UserInput"> <br/>
+              <!-- Comune <br/> <input type="text" name="Comune" class="UserInput"> <br/> -->
                 Descrizione <br/> <textarea type="textarea" class="UserInput" id="bio" name="bio"></textarea> <br/>
           </div> <br/> <br/>
-          <input type="submit" value="Submit">
+          <input class="btn" type="submit" value="Submit">
     </form>
 
         
-
+  </div>
 </body>
 </html>

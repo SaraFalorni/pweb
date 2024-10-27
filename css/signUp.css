@@ -1,10 +1,8 @@
-.UserInput {
-    border: solid 2px #276678;
-    height: 20px;
-    width: 150px;
-    margin-bottom: 10px;
-    margin-top: 3px;
-
+body {
+    margin: 0px;
+    padding: 0;
+    font-family: Verdana, Arial, Serif;
+    background-color: #F6F5F5;
 }
 
 #information{
@@ -12,12 +10,13 @@
     background-color:#D3E0EA;
     color: #1687A7;
     padding: 20px;
-    width: 500px;
+    /*width: 600px;*/
     font-weight: bold;
-    position: absolute;
+   /* position: absolute;
     top: 50%;
     left: 50%;
     margin-left: -240px;
+    */
 }
 
 #bio {
@@ -48,11 +47,21 @@
     margin-top: 20px;
 }
 
-
-
-body {
-    margin: 0px;
-    padding: 0;
-    font-family: Verdana, Arial, Serif;
-    background-color: #F6F5F5;
+.testoesteso {
+    width: 360px !important;
 }
+
+.regmainContent {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
+}
+
+select, textarea  {
+    padding: 6px 9px;
+    border: 2px solid #276678;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 10px;
+  }
