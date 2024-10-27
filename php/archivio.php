@@ -3,8 +3,6 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
-        <!--<script type="text/javascript" src="../js/.js"></script>-->
-    </head>
 <body>
     <header>
     
@@ -105,16 +103,17 @@
                     $row1 = $statement1->fetch(); //se c'è è 1 sicuramente
                     echo 'La tua richiesta è stata portata a termine dall\'utente '.$row1['Responsabile'].
                      ' titolare dell\'impresa '. $row1['Nome'] . ' che ha risposto alla tua richiesta con il messaggio " '
-                     . $row1['MessaggioRisposta'] .' " ' ;
+                     . $row1['MessaggioRisposta'] .' " </br>' ;
                     //controllo se è già stata effettuata una recensione a riguardo altrimenti rimando nella pagina per farla
-                    $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric";
+                    $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric AND Recensore = :user";
                     $statement2 = $pdo->prepare($sql2);
                     $statement2->bindValue( ':ric', $row['IDRichiesta']);
+                    $statement2->bindValue( ':user', $user);
                     $statement2->execute();
                     $row2 = $statement2->fetch(); //se c'è è 1 sicuramente
                     if( $row2 == NULL) {
                         //non è ancora stata rencensita
-                        echo " Com'è stato il servizio offerto? clicca <a onclick='scriviRecensione(".$row['IDRichiesta'].") '> qui </a> per recensire " . $row1['Nome'] ;
+                        echo " Com'è stato il servizio offerto? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row1['Nome'] ;
                     }
                     else {
                         //è già stata recensita
@@ -147,16 +146,38 @@
             do {
                 echo ' <div > <li id= "'. $row['IDRisposta'] .'" name="rRisposta">
                  Risposta per la richiesta per il montaggio di ' .$row['TipoMobile']. ' nella data '.$row['DataRichiesta'].
-               ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' dell\'utente'. $row['UtenteRichiesta'] 
+               ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' dell\'utente '. $row['UtenteRichiesta'] 
                .' : " '.$row['MessaggioRisposta'] .' " 
                </br> Stato della risposta : '. $row['StatoRisposta'] . '</br>';
 
                if( $row['StatoRisposta'] == 'accettata' ) {
                    if( $row['StatoRichiesta'] == 'conclusa' ) {
-
+                        //controllo se è già stata effettuata una recensione a riguardo altrimenti rimando nella pagina per farla
+                        $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric AND Recensore = :user ";
+                        $statement2 = $pdo->prepare($sql2);
+                        $statement2->bindValue( ':ric', $row['IDRichiesta']);
+                        $statement2->bindValue( ':user', $user);
+                        $statement2->execute();
+                        $row2 = $statement2->fetch(); //se c'è è 1 sicuramente
+                        if( $row2 == NULL) {
+                            //non è ancora stato recensito
+                            echo " Com'è stato il offrire il servizio al cliente? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row['UtenteRichiesta'] ;
+                        }
+                        else {
+                            //è già stato recensito
+                            echo "Hai già recensito il cliente per questo servizio. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                        }                        
                    }
-                   //richiesta a cui si riferisce non si è ancora conclusa
-                    echo '';
+                   else {
+                        //richiesta a cui si riferisce non si è ancora conclusa
+                        echo "La tua risposta è stata accettata dal cliente, passato l'orario prestabilito potrai recensire il cliente! ";
+                   }
+               }
+               else if($row['StatoRisposta'] == 'inviata') {
+                    echo "La tua risposta non è stata ancora visionata dal cliente, verrai notificato quando questo accade.";
+               }
+               else if($row['StatoRisposta'] == 'rifiutata') {
+                    echo 'La tua risposta è stata rifiutata dal cliente. Per cercare altre richieste a cui proporre il tuo servizio clicca <a href="./lookForRequest.php" >qui</a>!';
                }
             } while($row = $statement->fetch());
         }

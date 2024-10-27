@@ -16,7 +16,7 @@
         //verifica che i campi obbligatori siano compilati
         $values = ['iTipoMobile', 'iDataRic', 'selFasciaOraria', 'selRegione' ,'selProvincia','selComune'];
 
-        foreach($clientValues as $cv) {
+        foreach($values as $cv) {
             if($_POST[$cv] == '') {
                 throw new Exception("no input nel campo obbligatorio $cv ");
             }
@@ -24,14 +24,14 @@
 
 
         //verifica che la data sia futura
-        $dataRic = $_POST['iDataRic'];
-        $sql = "SELECT CURRENT_DATE()";
+       $dataRic = $_POST['iDataRic'];
+        /* $sql = "SELECT CURRENT_DATE()";
         $statement = $pdo->prepare($sql);
         $statement->execute();
         $row = $statement->fetch();
         if($dataRic <= $row) {
             throw new Exception("Data scelta già passata, scegli una data futura per la tua richiesta");
-        }
+        }*/
 
         $tipoMobile = $_POST['iTipoMobile'];
         $fasciaOraria = $_POST['selFasciaOraria'];
@@ -63,7 +63,7 @@
     
     catch(PDOException | Exception $e) {
         $emess = $e->getMessage();
-            $erroreinserimento = "C'è stato un errore nell'ottenere la provincia </br>";
+            $erroreinserimento = "C'è stato un errore nell'inserire la nuova richiesta </br>";
             echo $erroreinserimento ;
             echo $emess;
         }
