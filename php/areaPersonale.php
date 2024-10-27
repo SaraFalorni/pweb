@@ -41,12 +41,12 @@
                 }
             
         ?>
-        <li> <input type="button" onclick = 'openModificaProfilo()' value="Modifica Profilo">  </input> </li>
     </ul>
   </nav>
   <hr>
   <h1>Area Personale</h1> <br/>
   <div class="mainContent"> 
+  <li> <input type="button" onclick = 'openModificaProfilo()' value="Modifica Profilo">  </input> </li>
             <div id="dModificaProfilo" name="dModificaProfilo" style="display:none"> 
                     <h3>Modifica le tue informazioni personali </h3>
                     <p>* UserId non è modificabile </br> Inserisci la password nel campo 'Conferma password' per poter effettuare le modifiche!</p>

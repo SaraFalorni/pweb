@@ -84,7 +84,9 @@ ALTER TABLE Recensione
     ADD CONSTRAINT FK_Recensione_Utente1
     FOREIGN KEY (Recensore) REFERENCES Utente(UserID),
     ADD CONSTRAINT FK_Recensione_Utente2
-    FOREIGN KEY (Recensito) REFERENCES Utente(UserID);
+    FOREIGN KEY (Recensito) REFERENCES Utente(UserID),
+	ADD CONSTRAINT FK_Recensione_Richiesta
+    FOREIGN KEY (RichiestaRecensita) REFERENCES Richiesta(IDRichiesta);
     
 ALTER TABLE Richiesta
     ADD CONSTRAINT FK_Richiesta_Utente

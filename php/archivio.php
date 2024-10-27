@@ -56,23 +56,30 @@
 
     try{
         if(!isset($_COOKIE["usertype"])) {
-            echo "cookie non settato </br>" ;
+            echo "cookie usertype non settato </br>" ;
         }
         else {
             $usertype = $_COOKIE["usertype"]; }   
         
         if(!isset($_COOKIE["user"])) {
-            echo "cookie non settato </br>" ;
+            echo "cookie user non settato </br>" ;
         }
         else {
             $user = $_COOKIE["user"]; }   
 
         //se è un'impresa
         
-        $sql = "SELECT * FROM Risposta WHERE Utente = :utente"; //order by timestamp??? così sono in ordine cronologico
+        $sql = "SELECT Risp.IDRisposta, Risp.MessaggioRisposta, Risp.StatoRisposta, Risp.Utente AS UtenteRisposta,Ric.Utente AS UtenteRichiesta, Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, Ric.StatoRichiesta 
+                FROM Risposta Risp INNER JOIN Richiesta Ric ON Ric.IDRichiesta = Risp.Richiesta
+                                   INNER JOIN Comune C ON Ric.Comune = C.id
+                WHERE Risp.Utente = :utente "; //order by timestamp??? così sono in ordine cronologico
         if( $usertype == "cliente" ) //se è un cliente 
         {
-            $sql = "SELECT * FROM Richiesta WHERE Utente = :utente"; //order by timestamp??? così sono in ordine cronologico
+            //Troppe info troppe tabelle, o riguardare struttara db aggiungendo ridondanze utili oppure capire come fare join non troppo pesanti
+            $sql = "SELECT Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, Ric.StatoRichiesta 
+                    FROM Richiesta Ric INNER JOIN Comune C ON Ric.Comune = C.id
+                    WHERE Ric.Utente = :utente AND Ric.StatoRichiesta <> 'inviata'
+                    ORDER BY TimeStampRichiesta "; //order by timestamp??? così sono in ordine cronologico
         }
                 
         $statement = $pdo->prepare($sql);
@@ -81,13 +88,76 @@
         if($usertype == "cliente") {
             $row = $statement->fetch();
             do {
-            // echo $row['']; //cosa scrivo nell'archivio??
+                echo ' <div > <li id= "'. $row['IDRichiesta'] .'" name="rRichieste">
+                 Richiesta per il montaggio di ' .$row['TipoMobile']. ' nella data '.$row['DataRichiesta'].
+               ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' 
+               </br> Stato della richiesta : '. $row['StatoRichiesta'] . '</br>';
+                
+                if($row['StatoRichiesta'] == 'conclusa') {
+                    //recupero le informazioni dell'impresa la cui risposta è stata accettata
+                    $sql1 = "SELECT Ric.IDRichiesta, Risp.IDRisposta, I.Responsabile, I.Nome, Risp.MessaggioRisposta
+                             FROM Richiesta Ric INNER JOIN Risposta Risp ON Ric.RispostaAccettata = Risp.IDRisposta
+                                                INNER JOIN Impresa I ON I.Responsabile = Risp.Utente
+                             WHERE Ric.IDRichiesta = :ric ";
+                    $statement1 = $pdo->prepare($sql1);
+                    $statement1->bindValue( ':ric', $row['IDRichiesta']);
+                    $statement1->execute();
+                    $row1 = $statement1->fetch(); //se c'è è 1 sicuramente
+                    echo 'La tua richiesta è stata portata a termine dall\'utente '.$row1['Responsabile'].
+                     ' titolare dell\'impresa '. $row1['Nome'] . ' che ha risposto alla tua richiesta con il messaggio " '
+                     . $row1['MessaggioRisposta'] .' " ' ;
+                    //controllo se è già stata effettuata una recensione a riguardo altrimenti rimando nella pagina per farla
+                    $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric";
+                    $statement2 = $pdo->prepare($sql2);
+                    $statement2->bindValue( ':ric', $row['IDRichiesta']);
+                    $statement2->execute();
+                    $row2 = $statement2->fetch(); //se c'è è 1 sicuramente
+                    if( $row2 == NULL) {
+                        //non è ancora stata rencensita
+                        echo " Com'è stato il servizio offerto? clicca <a onclick='scriviRecensione(".$row['IDRichiesta'].") '> qui </a> per recensire " . $row1['Nome'] ;
+                    }
+                    else {
+                        //è già stata recensita
+                        echo "Hai già recensito il servizio ricevuto per questa richiesta. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                    }
+
+                }
+                else if($row['StatoRichiesta'] == 'scaduta') {
+                    echo "è passato l'orario della tua richiesta senza nessuna risposta accettata.";
+
+                }  
+                else if($row['StatoRichiesta'] == ' presa in carico') {
+                    $sql1 = "SELECT Ric.IDRichiesta, Risp.IDRisposta, I.Responsabile, I.Nome, Risp.MessaggioRisposta
+                             FROM Richiesta Ric INNER JOIN Risposta Risp ON Ric.RispostaAccettata = Risp.IDRisposta
+                                                INNER JOIN Impresa I ON I.Responsabile = Risp.Utente
+                             WHERE Ric.IDRichiesta = :ric ";
+                    $statement1 = $pdo->prepare($sql1);
+                    $statement1->bindValue( ':ric', $row['IDRichiesta']);
+                    $statement1->execute();
+                    $row1 = $statement1->fetch(); //se c'è è 1 sicuramente
+                    echo "la tua risposta è stata presa in carico da ". $row1['Responsabile']." dell'impresa ".$row1['Nome'].", passato l'orario prestabilito potrai recensire il servizio!";
+                }
+
+               echo ' </br> </br> <div id="divRisposte'.$row['IDRichiesta'].'"></div>
+               </div>  </li> '  ;
             } while($row = $statement->fetch());
         }
-        else {
+        else { //se è impresa
             $row = $statement->fetch();
             do {
-                //echo $row['']; //cosa scrivo nell'archivio??
+                echo ' <div > <li id= "'. $row['IDRisposta'] .'" name="rRisposta">
+                 Risposta per la richiesta per il montaggio di ' .$row['TipoMobile']. ' nella data '.$row['DataRichiesta'].
+               ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' dell\'utente'. $row['UtenteRichiesta'] 
+               .' : " '.$row['MessaggioRisposta'] .' " 
+               </br> Stato della risposta : '. $row['StatoRisposta'] . '</br>';
+
+               if( $row['StatoRisposta'] == 'accettata' ) {
+                   if( $row['StatoRichiesta'] == 'conclusa' ) {
+
+                   }
+                   //richiesta a cui si riferisce non si è ancora conclusa
+                    echo '';
+               }
             } while($row = $statement->fetch());
         }
     }  
