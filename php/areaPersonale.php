@@ -144,7 +144,133 @@
             </div>
              
            <div id="divRecensionifatte" >
+               <h3>Recensioni scritte</h3>
+               <?php
+                    //include '../php/connectDB.php';
+
+                    $connection = new connectDB();
+                    $pdo = $connection->getPDO();
+                     try{
+                         if(!isset($_COOKIE["user"])) {
+                             echo "cookie non settato </br>" ;
+                         }
+                         else {
+                         $user = $_COOKIE["user"]; }  
+
+                         if(!isset($_COOKIE["usertype"])) {
+                            echo "cookie non settato </br>" ;
+                        }
+                        else {
+                        $usertype = $_COOKIE["usertype"]; }  
+
+                         $sql = "SELECT Rec.IDRecensione, Rec.Recensito, Rec.Recensore, Rec.TestoRecensione, Rec.Rating, Ric.TipoMobile, Ris.MessaggioRisposta
+                                 FROM Recensione Rec LEFT OUTER JOIN Richiesta Ric ON Rec.RichiestaRecensita = Ric.IDRichiesta
+                                        LEFT OUTER JOIN Risposta Ris ON Ric.RispostaAccettata = Ris.IDRisposta
+                                 WHERE Rec.Recensore = :user";
+                        $statement = $pdo->prepare($sql);
+                        $statement->bindValue( ':user', $user);
+                        $statement->execute();
+                        $row = $statement->fetch();
+                        if( $row != NULL )
+                        {    if($usertype == 'cliente') {
+                                do {
+                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
+                                    echo 'Recensione del servizio offerto da '.$row['Recensito'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
+                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
+                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
+                                    echo '</div>';
+                                } while( $row = $statement->fetch() );
+                            }
+                            else {//user è impresa
+                                do {
+                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
+                                    echo 'Recensione del cliente '.$row['Recensito'].' in riferimento al montaggio del mobile '.$row['TipoMobile'].': </br>';
+                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
+                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
+                                    echo '</div>';
+                                } while( $row = $statement->fetch() );
+                            }
+                            
+                        }  
+                        else {
+                            echo "Non hai ancora scritto nessuna recensione.";
+                        }
+                    }
+             
+                    catch(PDOException | Exception $e) {
+                        $emess = $e->getMessage();
+                            $erroreinserimento = "C'è stato un errore nell'accedere alle recensioni fatte </br>";
+                            echo $emess;
+                        }
+                    
+                    $connection->close();
+                    $pdo = null;
+               ?>
                
+           </div>  
+
+           <div id="divRecensionifatte" >
+               <h3>Recensioni ricevute</h3>
+               <?php
+                    //include '../php/connectDB.php';
+
+                    $connection = new connectDB();
+                    $pdo = $connection->getPDO();
+                    try{
+                        if(!isset($_COOKIE["user"])) {
+                            echo "cookie non settato </br>" ;
+                        }
+                        else {
+                        $user = $_COOKIE["user"]; }  
+
+                        if(!isset($_COOKIE["usertype"])) {
+                            echo "cookie non settato </br>" ;
+                        }
+                        else {
+                        $usertype = $_COOKIE["usertype"]; }  
+
+                        $sql = "SELECT Rec.IDRecensione, Rec.Recensito, Rec.Recensore, Rec.TestoRecensione, Rec.Rating, Ric.TipoMobile, Ris.MessaggioRisposta
+                                FROM Recensione Rec LEFT OUTER JOIN Richiesta Ric ON Rec.RichiestaRecensita = Ric.IDRichiesta
+                                        LEFT OUTER JOIN Risposta Ris ON Ric.RispostaAccettata = Ris.IDRisposta
+                                WHERE Rec.Recensito = :user";
+                        $statement = $pdo->prepare($sql);
+                        $statement->bindValue( ':user', $user);
+                        $statement->execute();
+                        $row = $statement->fetch();
+                        if( $row != NULL) {
+                            if($usertype == 'cliente') {
+                                do {
+                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
+                                    echo 'Recensione dell\'impresa '.$row['Recensore'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
+                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
+                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
+                                    echo '</div>';
+                                } while( $row = $statement->fetch() );
+                            }
+                            else {//user è impresa
+                                do {
+                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
+                                    echo 'Recensione del tuo servizio per '.$row['Recensore'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
+                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
+                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
+                                    echo '</div>';
+                                } while( $row = $statement->fetch() );
+                            }
+                        } 
+                        else {
+                            echo "Non hai ancora ricevuto nessuna recensione.";
+                        }                      
+                    }  
+            
+                    catch(PDOException | Exception $e) {
+                        $emess = $e->getMessage();
+                            $erroreinserimento = "C'è stato un errore nell'accedere alle recensioni fatte </br>";
+                            echo $emess;
+                        }
+                    
+                    $connection->close();
+                    $pdo = null;
+               ?>
            </div>  
 
   </div>
