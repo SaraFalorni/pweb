@@ -17,7 +17,7 @@
       <li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
       <li><a href="./archivio.php">Archivio Risposte</a></li>
       <li><a href="./areaPersonale.php">Area Personale</a></li>
-      <li><a href="./homepage.php" id="logoutButton"> Logout </a></li>
+      <li><a href="../index.html" id="logoutButton"> Logout </a></li>
     </ul>
   </nav>
   <hr>

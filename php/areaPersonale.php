@@ -1,3 +1,8 @@
+<?php
+
+include '../php/connectDB.php';
+include '../php/getuser.php';
+                ?>
 <!DOCTYPE html>
 <html lang="it">
     <head>
@@ -7,11 +12,10 @@
         <script type="text/javascript" src="../js/signUp.js"></script> <!--per generare le opzioni di provincia e comune-->
     </head>
 <body>
-    <header>
-    
-    <img src="logo.png" alt="Logo"> <span>&nbsp;My website</span>
-
-  </header>
+<header>
+    <img class="imglogo" src="../img/logo.png" alt="Logo" > <span>&nbsp;</span>
+    <span class="usrwelcome">Benvenuto utente: <?php echo $currentuser . ' [' . $usertype . ']' ?></span>  
+</header>
    <nav>
     <ul>
         <!-- index in base al tipo di utente -->
@@ -29,7 +33,7 @@
                     <li><a href="./archivio.php">Archivio Richieste</a></li>
                     <li><a href="./areaPersonale.php">Area Personale</a></li>
                     <li><a href="./NuovaRichiesta.php">Nuova richiesta</a></li>
-                    <li><a href="./homepage.php" id="logoutButton"> Logout </a></li>';
+                    <li><a href="../index.html" id="logoutButton"> Logout </a></li>';
                 }
                 else if($usertype == 'impresa') {
                     //index impresa
@@ -37,24 +41,25 @@
                     <li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
                     <li><a href="./areaPersonale.php">Archivio Risposte</a></li>
                     <li><a href="./areaPersonale.php">Area Personale</a></li>
-                    <li><a href="./homepage.php" id="logoutButton"> Logout </a></li>';
+                    <li><a href="../index.html" id="logoutButton"> Logout </a></li>';
                 }
-            
+                
         ?>
     </ul>
   </nav>
   <hr>
-  <h1>Area Personale</h1> <br/>
   <div class="mainContent"> 
+  <h2>Area Personale</h2> <br/>
+
   <li> <input type="button" onclick = 'openModificaProfilo()' value="Modifica Profilo">  </input> </li>
             <div id="dModificaProfilo" name="dModificaProfilo" style="display:none"> 
                     <h3>Modifica le tue informazioni personali </h3>
                     <p>* UserId non è modificabile </br> Inserisci la password nel campo 'Conferma password' per poter effettuare le modifiche!</p>
                     <?php
-                         include '../php/connectDB.php';
+                        /* include '../php/connectDB.php';
 
                         $connection = new connectDB();
-                        $pdo = $connection->getPDO();
+                        $pdo = $connection->getPDO();  */
                          try{
                              if(!isset($_COOKIE["user"])) {
                                  echo "cookie non settato </br>" ;
@@ -85,7 +90,7 @@
                              Data Di Nascita <br/> <input type="date" class="UserInput" id="birthDate" name="birthDate" onblur="checkBirthDate()" value="'.$row['DataNascita'].'"> 
                              <label id="errorBirthDate" style="display:none;">Data di Nascita non accettabile</label> <br/>
                              Indirizzo <br/> <input type="text" class="UserInput" name="indirizzo" value="'.$row['Indirizzo'].'"> <br/>
-                             Foto <br/> <input type="file" id="UserPicture" name="foto" accept="image/png, image/jpeg" /> <br/>';
+                             Foto <br/> <input type="file" class="btn-secondario" id="UserPicture" name="foto" accept="image/png, image/jpeg" /> <br/>';
                             
                              if( !empty($row['IDImpresa']) ) //se l'utente è impresa mostra anche le informazioni relative all'impresa
                            { echo  '<div name="Impresa" id="Impresa" >
@@ -115,11 +120,11 @@
                                         <option value="Veneto">Veneto</option>
                                     </select> &nbsp; &nbsp; 
                                     <label for="Provincia">Provincia</label>
-                                    <select name="Provincia" id="Provincia" onclick="findProvincia();" >
+                                    <select name="Provincia" id="Provincia" onfocus="findProvincia(\'Regione\');" >
                                         <option disabled selected value> '.$row['Provincia'].' </option>                    
                                     </select> <br/> <br/>
                                     <label for="Comune">Comune</label>
-                                    <select name="Comune" id="Comune" onfocus="LoadComuni();" >
+                                    <select name="Comune" id="Comune" onfocus="LoadComuni(\'Comune\');" >
                                          <option disabled selected value> '.$row['NomeComune'].' </option>
                                     </select> <br/>
                                   <!-- Comune <br/> <input type="text" name="Comune" class="UserInput"> <br/> -->

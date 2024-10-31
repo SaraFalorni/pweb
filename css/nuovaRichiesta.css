@@ -12,10 +12,22 @@ body {
     padding: 20px;
     width: 500px;
     font-weight: bold;
-    position: absolute;
+    /*position: absolute;
     top: 30%;
     left: 50%;
     margin-left: -240px;
+    */
+}
+
+#descnuovaric{
+    color: #1687A7;
+    width: 500px;
+    text-align:center;
+    margin-top: 0px;
+}
+
+input[type="text"], textarea {
+   width: 360px;
 }
 
 .sottotitolo {
@@ -29,4 +41,11 @@ body {
 h3 {
     color: #276678;
     font-weight: lighter;
+}
+
+.ricmainContent {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-direction: column;
 }
