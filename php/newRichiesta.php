@@ -14,7 +14,7 @@
         $user = $_COOKIE["user"]; }
 
         //verifica che i campi obbligatori siano compilati
-        $values = ['iTipoMobile', 'iDataRic', 'selFasciaOraria', 'selRegione' ,'selProvincia','selComune'];
+        $values = ['iTipoMobile', 'iDataRic', 'selFasciaOraria', 'selRegione' ,'Provincia','selComune'];
 
         foreach($values as $cv) {
             if($_POST[$cv] == '') {
@@ -35,7 +35,7 @@
 
         $tipoMobile = $_POST['iTipoMobile'];
         $fasciaOraria = $_POST['selFasciaOraria'];
-        $provincia = $_POST['selProvincia'];
+        $provincia = $_POST['Provincia'];
         $regione = $_POST['selRegione'];
         $comune = $_POST['selComune'];
         $mess = $_POST['iMessRichiesta']; 

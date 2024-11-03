@@ -1,14 +1,19 @@
+<?php
+
+include '../php/connectDB.php';
+include '../php/getuser.php';
+?>
 <!DOCTYPE html>
 <html lang="it">
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
+    </head>
 <body>
-    <header>
-    
-    <img src="logo.png" alt="Logo"> <span>&nbsp;My website</span>
-
-  </header>
+<header>
+    <img class="imglogo" src="../img/logo.png" alt="Logo" > <span>&nbsp;</span>
+    <span class="usrwelcome">Benvenuto utente: <?php echo $currentuser . ' [' . $usertype . ']' ?></span>
+</header>
    <nav>
     <ul>
         <!-- index in base al tipo di utente -->
@@ -26,7 +31,7 @@
                     <li><a href="./archivio.php">Archivio Richieste</a></li>
                     <li><a href="./areaPersonale.php">Area Personale</a></li>
                     <li><a href="./NuovaRichiesta.php">Nuova richiesta</a></li>
-                    <li><a href="./homepage.php" id="logoutButton"> Logout </a></li>';
+                    <li><a href="../index.html" id="logoutButton"> Logout </a></li>';
                 }
                 else if($usertype == 'impresa') {
                     //index impresa
@@ -34,24 +39,24 @@
                     <li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
                     <li><a href="./areaPersonale.php">Archivio Risposte</a></li>
                     <li><a href="./areaPersonale.php">Area Personale</a></li>
-                    <li><a href="./homepage.php" id="logoutButton"> Logout </a></li>';
+                    <li><a href="../index.html" id="logoutButton"> Logout </a></li>';
                 }
             
         ?>
   </ul>
   </nav>
   <hr>
-  <h1>Archivio</h1> <br/>
-  <div class="mainContent"> 
-
+ <div class="mainContent"> 
+ <h1>Archivio</h1> 
+ 
 
     <?php 
 
-    include '../php/connectDB.php';
+    /* *** include '../php/connectDB.php';
 
     $connection = new connectDB();
     $pdo = $connection->getPDO();
-
+*/
     try{
         if(!isset($_COOKIE["usertype"])) {
             echo "cookie usertype non settato </br>" ;

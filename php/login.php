@@ -13,7 +13,7 @@
   </header>
    <nav>
     <ul>
-      <li><a href="./Homepage.php">Home</a></li>
+      <li><a href="../index.html">Home</a></li>
       <li><a href="#" id="info" >Informazioni sul sito</a></li>
       <li><a href="../html/signUp.php">Registrati</a></li>
       <li><a href="./login.php">Accedi</a></li>
