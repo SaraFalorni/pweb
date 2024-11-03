@@ -16,7 +16,7 @@ try{
         $accettata = 'accettata';
         $rifiutata = 'rifiutata';
 
-        $sql = "SELECT * FROM Risposta A INNER JOIN Richiesta B ON A.Richiesta = B.IDRichiesta 
+        $sql = "SELECT A.Utente, B.TipoMobile, B.DataRichiesta, B.FasciaOraria, C.Comune, A.MessaggioRisposta, B.IDRichiesta, A.IDRisposta FROM Risposta A INNER JOIN Richiesta B ON A.Richiesta = B.IDRichiesta INNER JOIN Comune C ON B.Comune = C.id
                 WHERE Richiesta = :richiesta AND StatoRisposta <> 'rifiutata' ";
             
         $statement = $pdo->prepare($sql);
@@ -28,7 +28,7 @@ try{
                     echo ' <div id="divRisposta"> Risposta di ' . $row['Utente'] . 
                         ' per il montaggio del tuo mobile '.$row['TipoMobile'].' nella data '.$row['DataRichiesta'].
                         ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' </br> 
-                        Il suo messaggio per te: '.$row['MessaggioRisposta'].
+                        Il suo messaggio per te: '.$row['MessaggioRisposta']. ' &nbsp;' .
                         '<input class=\'btn\' type = "button" id="bAccetta'. $row['IDRichiesta'] . '" value="Accetta" onclick="ChangeRispostaStatus( \'accettata\', '. $row['IDRichiesta'] . ' )"></input>&nbsp;' . 
                         '<input class=\'btn\' type = "button" id="bRifiuta'. $row['IDRichiesta'] . '" value="Rifiuta" onclick="ChangeRispostaStatus(\'rifiutata\', '. $row['IDRichiesta'] . ' )"></input>' . 
                         '<input class=\'btn\' type="hidden" id="IHRisposta'. $row['IDRichiesta'] . '" name="IHRisposta'. $row['IDRichiesta'] . '" value = "'.$row['IDRisposta'].'" > </input> </div>';

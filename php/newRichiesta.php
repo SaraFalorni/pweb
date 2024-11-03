@@ -58,6 +58,11 @@
         $statement->bindValue( ':linkMobile', $linkMobile);
         $statement->bindValue( ':stato', $stato);
         $statement->execute();
+
+        
+        header("Location:LookForRisposte.php");
+
+        exit();
         
     }
     
