@@ -30,7 +30,7 @@ try {
        throw new Exception("conferma password errata");
     }
 
-    
+       
 
     //prendo i dati inseriti dall'utente
     $UserID = $_POST['UserID'];

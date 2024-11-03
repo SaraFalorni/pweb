@@ -25,13 +25,13 @@
 
         //verifica che la data sia futura
        $dataRic = $_POST['iDataRic'];
-        /* $sql = "SELECT CURRENT_DATE()";
+        $sql = "SELECT CURRENT_DATE() AS DataCorrente";
         $statement = $pdo->prepare($sql);
         $statement->execute();
         $row = $statement->fetch();
-        if($dataRic <= $row) {
+        if($dataRic <= $row['DataCorrente']) {
             throw new Exception("Data scelta già passata, scegli una data futura per la tua richiesta");
-        }*/
+        }
 
         $tipoMobile = $_POST['iTipoMobile'];
         $fasciaOraria = $_POST['selFasciaOraria'];
