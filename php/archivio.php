@@ -176,6 +176,8 @@ include '../php/getuser.php';
                    else {
                         //richiesta a cui si riferisce non si è ancora conclusa
                         echo "La tua risposta è stata accettata dal cliente, passato l'orario prestabilito potrai recensire il cliente! ";
+                        
+
                    }
                }
                else if($row['StatoRisposta'] == 'inviata') {
