@@ -9,7 +9,7 @@ function GetRisposte(idRic) {
                 { var data = xhr.responseText; 
                 //console.log(data);
                 //risposte.innerHTML = data;   
-                pnlRisposta.innerHTML = data;         
+                pnlRisposta.innerHTML = data;       
                 } 
             }; 
     xhr.send(); 
