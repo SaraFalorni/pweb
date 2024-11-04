@@ -9,7 +9,11 @@ function GetRisposte(idRic) {
                 { var data = xhr.responseText; 
                 //console.log(data);
                 //risposte.innerHTML = data;   
-                pnlRisposta.innerHTML = data;       
+                pnlRisposta.innerHTML = data;
+                pnlRisposta.style.overflow="visible";
+                pnlRisposta.style.height=pnlRisposta.scrollHeight + "px";
+                pnlRisposta.children[0].style.overflow="visible";
+                pnlRisposta.children[0].style.height=pnlRisposta.scrollHeight + "px";   
                 } 
             }; 
     xhr.send(); 
