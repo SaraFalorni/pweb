@@ -7,7 +7,8 @@ include '../php/getuser.php';
 <html lang="it">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/homepage.css">
+        <link rel="stylesheet" type="text/css" href="../css/archivio.css"> 
     </head>
 <body>
 <header>
@@ -72,14 +73,16 @@ include '../php/getuser.php';
 
         //se è un'impresa
         
-        $sql = "SELECT Risp.IDRisposta, Risp.MessaggioRisposta, Risp.StatoRisposta, Risp.Utente AS UtenteRisposta,Ric.Utente AS UtenteRichiesta, Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, Ric.StatoRichiesta 
+        $sql = "SELECT Risp.IDRisposta, Risp.MessaggioRisposta, Risp.StatoRisposta, Risp.Utente AS UtenteRisposta,
+                Ric.Utente AS UtenteRichiesta, Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, 
+                C.Comune, C.Provincia, C.Regione, Ric.StatoRichiesta 
                 FROM Risposta Risp INNER JOIN Richiesta Ric ON Ric.IDRichiesta = Risp.Richiesta
                                    INNER JOIN Comune C ON Ric.Comune = C.id
                 WHERE Risp.Utente = :utente "; //order by timestamp??? così sono in ordine cronologico
         if( $usertype == "cliente" ) //se è un cliente 
         {
             //Troppe info troppe tabelle, o riguardare struttara db aggiungendo ridondanze utili oppure capire come fare join non troppo pesanti
-            $sql = "SELECT Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, Ric.StatoRichiesta 
+            $sql = "SELECT Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, C.Provincia, C.Regione, Ric.StatoRichiesta 
                     FROM Richiesta Ric INNER JOIN Comune C ON Ric.Comune = C.id
                     WHERE Ric.Utente = :utente AND Ric.StatoRichiesta <> 'inviata'
                     ORDER BY TimeStampRichiesta "; //order by timestamp??? così sono in ordine cronologico
@@ -90,12 +93,21 @@ include '../php/getuser.php';
         $statement->execute();
         if($usertype == "cliente") {
             $row = $statement->fetch();
-            do {
+            do { /* ***
                 echo ' <div > <li id= "'. $row['IDRichiesta'] .'" name="rRichieste">
                  Richiesta per il montaggio di ' .$row['TipoMobile']. ' nella data '.$row['DataRichiesta'].
                ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' 
                </br> Stato della richiesta : '. $row['StatoRichiesta'] . '</br>';
-                
+*/
+               echo '<div class="card cardrichiesta">
+                    <div class="container">
+                    <h4><b>Richiesta</b> #'.$row['IDRichiesta'].'</h4> 
+                    <p><strong>Tipo Mobile</strong>: '.$row['TipoMobile'].'</p> 
+                    <p><strong>Data</strong>: '.$row['DataRichiesta'].'&nbsp;&nbsp;&nbsp;<strong>Fascia Oraria</strong>: '.$row['FasciaOraria'].'</p>
+                    <p><strong>Localizzazione</strong>: '.$row['Comune'].'/'.$row['Provincia'].'/'.$row['Regione'].'</p>
+                    <p><strong>Stato della richiesta</strong>: '.$row['StatoRichiesta'].'</p>
+                    </div></div><div class="separatore"></div>';
+
                 if($row['StatoRichiesta'] == 'conclusa') {
                     //recupero le informazioni dell'impresa la cui risposta è stata accettata
                     $sql1 = "SELECT Ric.IDRichiesta, Risp.IDRisposta, I.Responsabile, I.Nome, Risp.MessaggioRisposta
@@ -106,9 +118,18 @@ include '../php/getuser.php';
                     $statement1->bindValue( ':ric', $row['IDRichiesta']);
                     $statement1->execute();
                     $row1 = $statement1->fetch(); //se c'è è 1 sicuramente
+                    /*
                     echo 'La tua richiesta è stata portata a termine dall\'utente '.$row1['Responsabile'].
                      ' titolare dell\'impresa '. $row1['Nome'] . ' che ha risposto alla tua richiesta con il messaggio " '
                      . $row1['MessaggioRisposta'] .' " </br>' ;
+*/
+                     echo '<div class="card">
+                     <div class="container">
+                     <p>La tua richiesta è stata portata a termine dal Titolare '.$row1['Responsabile'].'</p>
+                     <p><strong>dell\'Impresa</strong>: '.$row1['Nome'].'</p> 
+                     <p><strong>Messaggio dell\'impresa</strong>: '.$row1['MessaggioRisposta'].'</p>
+                     </div></div><div class="separatore"></div>';
+
                     //controllo se è già stata effettuata una recensione a riguardo altrimenti rimando nella pagina per farla
                     $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric AND Recensore = :user";
                     $statement2 = $pdo->prepare($sql2);
@@ -139,7 +160,16 @@ include '../php/getuser.php';
                     $statement1->bindValue( ':ric', $row['IDRichiesta']);
                     $statement1->execute();
                     $row1 = $statement1->fetch(); //se c'è è 1 sicuramente
-                    echo "la tua risposta è stata presa in carico da ". $row1['Responsabile']." dell'impresa ".$row1['Nome'].", passato l'orario prestabilito potrai recensire il servizio!";
+                    /*
+                    echo "la tua risposta è stata presa in carico da ". $row1['Responsabile'].
+                    " dell'impresa ".$row1['Nome'].", passato l'orario prestabilito potrai recensire il servizio!";
+                    */
+                    echo '<div class="card">
+                     <div class="container">
+                     <p>La tua richiesta è stata presa in carico dal Titolare: '.$row1['Responsabile'].'</p>
+                     <p><strong>dell\'Impresa</strong>: '.$row1['Nome'].'</p> 
+                     <p><strong>Azioni successive: </strong>Passato l\'orario prestabilito potrai recensire il servizio!</p>
+                     </div></div><div class="separatore"></div>';
                 }
 
                echo ' </br> </br> <div id="divRisposte'.$row['IDRichiesta'].'"></div>
