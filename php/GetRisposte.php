@@ -16,7 +16,7 @@ try{
         $accettata = 'accettata';
         $rifiutata = 'rifiutata';
 
-        $sql = "SELECT A.*, B.*,impr.Nome, impr.Descrizione,impr.Comune,impr.CognomeResponsabile, impr.NomeResponsabile,
+        $sql = "SELECT A.IDRisposta, B.IDRichiesta, B.Provincia, B.Regione, A.MessaggioRisposta, A.Utente AS UtenteRisposta,impr.Nome, impr.Descrizione,impr.Comune,impr.CognomeResponsabile, impr.NomeResponsabile,
                 impr.ComuneNome, impr.Provincia, impr.Regione
                 FROM Risposta A INNER JOIN Richiesta B ON A.Richiesta = B.IDRichiesta 
                 LEFT JOIN (select i.*, u.Nome as NomeResponsabile, u.Cognome as CognomeResponsabile, 
@@ -42,7 +42,8 @@ try{
                     '<p><strong>Messaggio per te</strong>: '.$row['MessaggioRisposta'].'</p>'.
                     '<input class=\'btn\' type = "button" id="bAccetta'. $row['IDRichiesta'] . '" value="Accetta" onclick="ChangeRispostaStatus( \'accettata\', '. $row['IDRichiesta'] . ' )"></input>&nbsp;' . 
                     '<input class=\'btn\' type = "button" id="bRifiuta'. $row['IDRichiesta'] . '" value="Rifiuta" onclick="ChangeRispostaStatus(\'rifiutata\', '. $row['IDRichiesta'] . ' )"></input>' . 
-                    '<input class=\'btn\' type="hidden" id="IHRisposta'. $row['IDRichiesta'] . '" name="IHRisposta'. $row['IDRichiesta'] . '" value = "'.$row['IDRisposta'].'" > </input> </div>';
+                    '<input class=\'btn\' type="hidden" id="IHRisposta'. $row['IDRichiesta'] . '" name="IHRisposta'. $row['IDRichiesta'] . '" value = "'.$row['IDRisposta'].'" > </input> '. 
+                    '<p>Clicca <a href="checkRecensioni.php?utente='.$row['UtenteRisposta'].'">qui </a> per leggere le recensioni ricevute da '. $row['NomeResponsabile'].' '. $row['CognomeResponsabile'] . '</p> </div>' ;
 
             } while( $row = $statement->fetch());
         }

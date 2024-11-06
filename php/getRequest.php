@@ -44,7 +44,7 @@ try{
     }
     else if($area == 'Comune') {
         $sql = "SELECT * 
-                FROM Richiesta R                          
+                FROM Richiesta R                           
                 WHERE R.Comune = (SELECT Comune
                                   FROM Comune C 
                                   WHERE C.id = (SELECT Comune
@@ -68,7 +68,8 @@ try{
                       '  </br>' . '<input type="button" id="btnrispondi" onclick="openFormRisp('
                       . $row['IDRichiesta'] .', \''. $user .'\' )"> Rispondi alla richiesta! </input> ' . 
                       '<input type="hidden" id= "iIDRichiesta" name= "iIDRichiesta'.$row['IDRichiesta'].'" value="'. $row['IDRichiesta'] . '" > </input>' . 
-                      '<input type="hidden" id= "iIDUser" name= "iIDUser'.$user.'" value="'. $user . '" > </input>' .'</div>';
+                      '<input type="hidden" id= "iIDUser" name= "iIDUser'.$user.'" value="'. $user . '" > </input>' .'</div>'. 
+                      '<p>Clicca <a href="checkRecensioni.php?utente='.$row['Utente'].'">qui </a> per leggere le recensioni ricevute da '. $row['Utente'] . '</p> ';
             } while( $row = $statement->fetch());
         }
         else {
