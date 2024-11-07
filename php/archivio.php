@@ -82,6 +82,7 @@ include '../php/getuser.php';
         if( $usertype == "cliente" ) //se è un cliente 
         {
             //Troppe info troppe tabelle, o riguardare struttara db aggiungendo ridondanze utili oppure capire come fare join non troppo pesanti
+            // ***
             $sql = "SELECT Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, C.Provincia, C.Regione, Ric.StatoRichiesta 
                     FROM Richiesta Ric INNER JOIN Comune C ON Ric.Comune = C.id
                     WHERE Ric.Utente = :utente AND Ric.StatoRichiesta <> 'inviata'
@@ -139,17 +140,32 @@ include '../php/getuser.php';
                     $row2 = $statement2->fetch(); //se c'è è 1 sicuramente
                     if( $row2 == NULL) {
                         //non è ancora stata rencensita
-                        echo " Com'è stato il servizio offerto? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row1['Nome'] ;
+                        //echo " Com'è stato il servizio offerto? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row1['Nome'] ;
+                        // *** */
+                        echo '<div class="card">
+                        <div class="container">
+                        <p><strong>Come è stato il servizio offerto?</strong></p>
+                        <p><a href="./nuovaRecensione.php?ric="'.$row['IDRichiesta'].'" > clicca qui </a> per recensire ' . $row1['Nome'].'</p>
+                        </div></div><div class="separatore"></div>';                        
                     }
                     else {
                         //è già stata recensita
-                        echo "Hai già recensito il servizio ricevuto per questa richiesta. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                        //echo "Hai già recensito il servizio ricevuto per questa richiesta. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                        echo '<div class="card">
+                        <div class="container">
+                        <p><strong>Recensione?</strong></p>
+                        <p>Hai già recensito il servizio ricevuto per questa richiesta. Per vedere tutte le recensioni fatte vai nella tua Area Personale.</p>
+                        </div></div><div class="separatore"></div>'; 
                     }
 
                 }
                 else if($row['StatoRichiesta'] == 'scaduta') {
-                    echo "è passato l'orario della tua richiesta senza nessuna risposta accettata.";
-
+                    //echo "è passato l'orario della tua richiesta senza nessuna risposta accettata.";
+                    echo '<div class="card">
+                    <div class="container">
+                    <p><strong>Stato della richiesta</strong></p>
+                    <p>è passato l\'orario della tua richiesta senza nessuna risposta accettata.</p>
+                    </div></div><div class="separatore"></div>'; 
                 }  
                 else if($row['StatoRichiesta'] == ' presa in carico') {
                     $sql1 = "SELECT Ric.IDRichiesta, Risp.IDRisposta, I.Responsabile, I.Nome, Risp.MessaggioRisposta
@@ -171,9 +187,11 @@ include '../php/getuser.php';
                      <p><strong>Azioni successive: </strong>Passato l\'orario prestabilito potrai recensire il servizio!</p>
                      </div></div><div class="separatore"></div>';
                 }
-
+/* ***
                echo ' </br> </br> <div id="divRisposte'.$row['IDRichiesta'].'"></div>
                </div>  </li> '  ;
+               */
+               echo '<div class="separatore"></div><div id="divRisposte'.$row['IDRichiesta'].'"></div>';
             } while($row = $statement->fetch());
         }
         else { //se è impresa
