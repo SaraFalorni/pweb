@@ -8,6 +8,7 @@ include '../php/getuser.php';
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/LookForRisposte.css">
         <script type="text/javascript" src="../js/areaPersonale.js"></script>
         <script type="text/javascript" src="../js/signUp.js"></script> <!--per generare le opzioni di provincia e comune-->
     </head>
@@ -50,6 +51,42 @@ include '../php/getuser.php';
   <hr>
   <div class="mainContent"> 
   <h2>Area Personale</h2> <br/>
+
+  <div id="divInfoUtente" class="card"> 
+
+        <div class="container"> 
+            <h4> Dati personali </h4>
+                <?php
+                    $connection = new connectDB();
+                    $pdo = $connection->getPDO();
+                    try{
+                        if($usertype == 'cliente')
+                        {
+                            
+                        }
+                        else if($usertype == 'impresa')
+                        {
+
+                        }
+            
+
+                       // echo '<p><strong>Nome:  </strong>'.$row['Recensito'].'</p>';
+                    }
+                    catch(PDOException | Exception $e) {
+                        $emess = $e->getMessage();
+                            $erroreinserimento = "C'è stato un errore nell'accedere alle informazioni personali </br>";
+                            echo $emess;
+                        }
+                    
+                    $connection->close();
+                    $pdo = null;
+                ?>
+            <div class="separatore"></div>
+
+
+
+        </div>
+  </div>
 
   <li> <input type="button" onclick = 'openModificaProfilo()' value="Modifica Profilo">  </input> </li>
             <div id="dModificaProfilo" name="dModificaProfilo" style="display:none"> 
@@ -179,20 +216,26 @@ include '../php/getuser.php';
                         if( $row != NULL )
                         {    if($usertype == 'cliente') {
                                 do {
-                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
-                                    echo 'Recensione del servizio offerto da '.$row['Recensito'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
-                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
-                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
-                                    echo '</div>';
+                                    echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
+                                        '<div class="container">'. 
+                                        '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
+                                        .'<p><strong>Servizio offerto da: </strong>'.$row['Recensito'].'</p>'
+                                        .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
+                                        .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
+                                        .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
+                                        .'</div></div><div class="separatore"></div>';
                                 } while( $row = $statement->fetch() );
                             }
                             else {//user è impresa
                                 do {
-                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
-                                    echo 'Recensione del cliente '.$row['Recensito'].' in riferimento al montaggio del mobile '.$row['TipoMobile'].': </br>';
-                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
-                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
-                                    echo '</div>';
+                                        echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
+                                        '<div class="container">'. 
+                                        '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
+                                        .'<p><strong>Cliente: </strong>'.$row['Recensito'].'</p>'
+                                        .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
+                                        .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
+                                        .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
+                                        .'</div></div><div class="separatore"></div>';
                                 } while( $row = $statement->fetch() );
                             }
                             
@@ -245,20 +288,26 @@ include '../php/getuser.php';
                         if( $row != NULL) {
                             if($usertype == 'cliente') {
                                 do {
-                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
-                                    echo 'Recensione dell\'impresa '.$row['Recensore'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
-                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
-                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
-                                    echo '</div>';
+                                    echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
+                                        '<div class="container">'. 
+                                        '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
+                                        .'<p><strong>Impresa: </strong>'.$row['Recensore'].'</p>'
+                                        .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
+                                        .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
+                                        .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
+                                        .'</div></div><div class="separatore"></div>';
                                 } while( $row = $statement->fetch() );
                             }
                             else {//user è impresa
                                 do {
-                                    echo '<div id="recensione'.$row['IDRecensione'].'">';
-                                    echo 'Recensione del tuo servizio per '.$row['Recensore'].' per il montaggio del mobile '.$row['TipoMobile'].': </br>';
-                                    echo 'Rating: '.$row['Rating'].' stelle </br>';
-                                    echo '</br> "'. $row['TestoRecensione'].' "</br>' ;
-                                    echo '</div>';
+                                    echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
+                                        '<div class="container">'. 
+                                        '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
+                                        .'<p><strong>Servizio offerto per: </strong>'.$row['Recensore'].'</p>'
+                                        .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
+                                        .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
+                                        .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
+                                        .'</div></div><div class="separatore"></div>';
                                 } while( $row = $statement->fetch() );
                             }
                         } 

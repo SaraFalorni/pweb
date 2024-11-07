@@ -9,7 +9,7 @@ include '../php/getuser.php';
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
         <link rel="stylesheet" type="text/css" href="../css/LookForRisposte.css">
-        <!-- <script type="text/javascript" src="../js/getRisposte.js"></script>-->
+        
     </head>
 <body>
 <header>
