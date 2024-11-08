@@ -86,7 +86,7 @@ include '../php/getuser.php';
             $sql = "SELECT Ric.IDRichiesta, Ric.TipoMobile, Ric.DataRichiesta, Ric.FasciaOraria, C.Comune, C.Provincia, C.Regione, Ric.StatoRichiesta 
                     FROM Richiesta Ric INNER JOIN Comune C ON Ric.Comune = C.id
                     WHERE Ric.Utente = :utente AND Ric.StatoRichiesta <> 'inviata'
-                    ORDER BY TimeStampRichiesta "; //order by timestamp??? così sono in ordine cronologico
+                    ORDER BY TimeStampRichiesta "; //order by timestamp??? così sono in ordine cronologico ***
         }
                 
         $statement = $pdo->prepare($sql);
@@ -107,7 +107,7 @@ include '../php/getuser.php';
                     <p><strong>Data</strong>: '.$row['DataRichiesta'].'&nbsp;&nbsp;&nbsp;<strong>Fascia Oraria</strong>: '.$row['FasciaOraria'].'</p>
                     <p><strong>Localizzazione</strong>: '.$row['Comune'].'/'.$row['Provincia'].'/'.$row['Regione'].'</p>
                     <p><strong>Stato della richiesta</strong>: '.$row['StatoRichiesta'].'</p>
-                    </div></div><div class="separatore"></div>';
+                    </div></div><div class="separatore">&nbsp;</div>';
 
                 if($row['StatoRichiesta'] == 'conclusa') {
                     //recupero le informazioni dell'impresa la cui risposta è stata accettata
@@ -129,7 +129,7 @@ include '../php/getuser.php';
                      <p>La tua richiesta è stata portata a termine dal Titolare '.$row1['Responsabile'].'</p>
                      <p><strong>dell\'Impresa</strong>: '.$row1['Nome'].'</p> 
                      <p><strong>Messaggio dell\'impresa</strong>: '.$row1['MessaggioRisposta'].'</p>
-                     </div></div><div class="separatore"></div>';
+                     </div></div><div class="separatore">&nbsp;</div>';
 
                     //controllo se è già stata effettuata una recensione a riguardo altrimenti rimando nella pagina per farla
                     $sql2 = "SELECT * FROM Recensione WHERE RichiestaRecensita = :ric AND Recensore = :user";
@@ -146,7 +146,7 @@ include '../php/getuser.php';
                         <div class="container">
                         <p><strong>Come è stato il servizio offerto?</strong></p>
                         <p><a href="./nuovaRecensione.php?ric="'.$row['IDRichiesta'].'" > clicca qui </a> per recensire ' . $row1['Nome'].'</p>
-                        </div></div><div class="separatore"></div>';                        
+                        </div></div><div class="separatore">&nbsp;</div>';                        
                     }
                     else {
                         //è già stata recensita
@@ -155,7 +155,7 @@ include '../php/getuser.php';
                         <div class="container">
                         <p><strong>Recensione?</strong></p>
                         <p>Hai già recensito il servizio ricevuto per questa richiesta. Per vedere tutte le recensioni fatte vai nella tua Area Personale.</p>
-                        </div></div><div class="separatore"></div>'; 
+                        </div></div><div class="separatore">&nbsp;</div>'; 
                     }
 
                 }
@@ -165,7 +165,7 @@ include '../php/getuser.php';
                     <div class="container">
                     <p><strong>Stato della richiesta</strong></p>
                     <p>è passato l\'orario della tua richiesta senza nessuna risposta accettata.</p>
-                    </div></div><div class="separatore"></div>'; 
+                    </div></div><div class="separatore">&nbsp;</div>'; 
                 }  
                 else if($row['StatoRichiesta'] == ' presa in carico') {
                     $sql1 = "SELECT Ric.IDRichiesta, Risp.IDRisposta, I.Responsabile, I.Nome, Risp.MessaggioRisposta
@@ -185,23 +185,35 @@ include '../php/getuser.php';
                      <p>La tua richiesta è stata presa in carico dal Titolare: '.$row1['Responsabile'].'</p>
                      <p><strong>dell\'Impresa</strong>: '.$row1['Nome'].'</p> 
                      <p><strong>Azioni successive: </strong>Passato l\'orario prestabilito potrai recensire il servizio!</p>
-                     </div></div><div class="separatore"></div>';
+                     </div></div><div class="separatore">&nbsp;</div>';
                 }
 /* ***
                echo ' </br> </br> <div id="divRisposte'.$row['IDRichiesta'].'"></div>
                </div>  </li> '  ;
                */
-               echo '<div class="separatore"></div><div id="divRisposte'.$row['IDRichiesta'].'"></div>';
+               echo '<div class="separatore">&nbsp;</div><div id="divRisposte'.$row['IDRichiesta'].'"></div>';
             } while($row = $statement->fetch());
         }
         else { //se è impresa
             $row = $statement->fetch();
             do {
+                /* ***
                 echo ' <div > <li id= "'. $row['IDRisposta'] .'" name="rRisposta">
                  Risposta per la richiesta per il montaggio di ' .$row['TipoMobile']. ' nella data '.$row['DataRichiesta'].
                ' nella fascia oraria ' .$row['FasciaOraria']. ' nel comune di ' .$row['Comune']. ' dell\'utente '. $row['UtenteRichiesta'] 
                .' : " '.$row['MessaggioRisposta'] .' " 
                </br> Stato della risposta : '. $row['StatoRisposta'] . '</br>';
+*/
+               echo '<div class="card cardrisposta">
+               <div class="container">
+               <h4><b>Richiesta</b> #'.$row['IDRichiesta'].'</h4> 
+               <p><strong>Tipo Mobile</strong>: '.$row['TipoMobile'].'</p> 
+               <p><strong>Data</strong>: '.$row['DataRichiesta'].'&nbsp;&nbsp;&nbsp;<strong>Fascia Oraria</strong>: '.$row['FasciaOraria'].'</p>
+               <p><strong>Localizzazione</strong>: '.$row['Comune'].'/'.$row['Provincia'].'/'.$row['Regione'].'</p>
+               <p><strong>Utente</strong>: '.$row['UtenteRichiesta'].'</p>
+               <p><strong>Stato della risposta</strong>: '.$row['StatoRisposta'].'</p>
+               </div></div><div class="separatore">&nbsp;</div>';
+
 
                if( $row['StatoRisposta'] == 'accettata' ) {
                    if( $row['StatoRichiesta'] == 'conclusa' ) {
@@ -214,25 +226,45 @@ include '../php/getuser.php';
                         $row2 = $statement2->fetch(); //se c'è è 1 sicuramente
                         if( $row2 == NULL) {
                             //non è ancora stato recensito
-                            echo " Com'è stato il offrire il servizio al cliente? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row['UtenteRichiesta'] ;
+                            // *** echo " Com'è stato il offrire il servizio al cliente? clicca <a href='./nuovaRecensione.php?ric=".$row['IDRichiesta']."' > qui </a> per recensire " . $row['UtenteRichiesta'] ;
+                            echo '<div class="card">
+                            <div class="container">
+                            <p> Come è stato il offrire il servizio al cliente? <a href="./nuovaRecensione.php?ric='.$row['IDRichiesta'].' > clicca qui </a> per recensire ' . $row['UtenteRichiesta'].' </p>
+                            </div></div><div class="separatore">&nbsp;</div>';
                         }
                         else {
                             //è già stato recensito
-                            echo "Hai già recensito il cliente per questo servizio. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                            // *** echo "Hai già recensito il cliente per questo servizio. Per vedere tutte le recensioni fatte vai nella tua Area Personale";
+                            echo '<div class="card">
+                            <div class="container">
+                            <p>Hai già recensito il cliente per questo servizio. Per vedere tutte le recensioni fatte vai nella tua Area Personale.</p>
+                            </div></div><div class="separatore">&nbsp;</div>'; 
                         }                        
                    }
                    else {
                         //richiesta a cui si riferisce non si è ancora conclusa
-                        echo "La tua risposta è stata accettata dal cliente, passato l'orario prestabilito potrai recensire il cliente! ";
-                        
+                       // *** echo "La tua risposta è stata accettata dal cliente, passato l'orario prestabilito potrai recensire il cliente! ";
+                        echo '<div class="card">
+                        <div class="container">
+                        <p>La tua risposta è stata accettata dal cliente, passato l\'orario prestabilito potrai recensire il cliente!</p>
+                        </div></div><div class="separatore">&nbsp;</div>'; 
 
                    }
                }
                else if($row['StatoRisposta'] == 'inviata') {
-                    echo "La tua risposta non è stata ancora visionata dal cliente, verrai notificato quando questo accade.";
+                    // *** echo "La tua risposta non è stata ancora visionata dal cliente, verrai notificato quando questo accade.";
+                    echo '<div class="card">
+                        <div class="container">
+                        <p>La tua risposta non è stata ancora visionata dal cliente, verrai notificato quando questo accade.</p>
+                        </div></div><div class="separatore">&nbsp;</div>';
                }
                else if($row['StatoRisposta'] == 'rifiutata') {
-                    echo 'La tua risposta è stata rifiutata dal cliente. Per cercare altre richieste a cui proporre il tuo servizio clicca <a href="./lookForRequest.php" >qui</a>!';
+                    // *** echo 'La tua risposta è stata rifiutata dal cliente. Per cercare altre richieste a cui proporre il tuo servizio clicca <a href="./lookForRequest.php" >qui</a>!';
+                    echo '<div class="card">
+                        <div class="container">
+                        <p>La tua risposta è stata rifiutata dal cliente. 
+                            Per cercare altre richieste a cui proporre il tuo servizio clicca <a href="./lookForRequest.php" >qui</a>!</p>
+                        </div></div><div class="separatore">&nbsp;</div>';
                }
             } while($row = $statement->fetch());
         }

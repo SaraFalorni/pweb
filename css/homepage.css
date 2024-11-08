@@ -114,7 +114,7 @@ body {
 /*-------------------------------------------*/ 
 .callimprese {
   background-color: white;
-  padding: 2rem 0 2rem;
+  padding: 2rem 0 90px;
 }
 .boximprese {
   display: flex;          /* Abilita flexbox */
