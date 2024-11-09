@@ -63,18 +63,20 @@ try{
         $row = $statement->fetch();
         if($row) {
             do {
-                 echo ' <div id="richiesta"> Richiesta di ' . $row['Utente'] . 
-                      ' per il montaggio del suo mobile: '. $row['TipoMobile'] . 
-                      '  </br>' . '<input type="button" id="btnrispondi" onclick="openFormRisp('
-                      . $row['IDRichiesta'] .', \''. $user .'\' )"> Rispondi alla richiesta! </input> ' . 
+                 echo '<div class="richiestaincerca" id="richiesta'.$row['IDRichiesta'].'"> 
+                       <p>Richiesta <b>#'.$row['IDRichiesta'].'</b> di <b>' . $row['Utente'] . '</b></p>
+                       <p>per il montaggio di: <b>'. $row['TipoMobile'] . '</b></p>
+                      <p>Rispondi alla richiesta!&nbsp;<input type="button" id="btnrispondi" onclick="openFormRisp('
+                      . $row['IDRichiesta'] .', \''. $user .'\' )" class="btn btn-smaller" value="Rispondi"></input> </p>' . 
                       '<input type="hidden" id= "iIDRichiesta" name= "iIDRichiesta'.$row['IDRichiesta'].'" value="'. $row['IDRichiesta'] . '" > </input>' . 
                       '<input type="hidden" id= "iIDUser" name= "iIDUser'.$user.'" value="'. $user . '" > </input>' .'</div>'. 
-                      '<p>Clicca <a href="checkRecensioni.php?utente='.$row['Utente'].'">qui </a> per leggere le recensioni ricevute da '. $row['Utente'] . '</p> ';
+                      '<p><a href="checkRecensioni.php?utente='.$row['Utente'].'">Clicca qui</a> per leggere le recensioni ricevute da '. $row['Utente'] . '</p> <div class="separatore">&nbsp;</div>';
             } while( $row = $statement->fetch());
         }
         else {
-            echo " </br> Nessuna richiesta nell'area selezionata! 
-            </br> Potresti aver già risposto a tutte le richieste disponibili, </br> prova ad allargare l'area di ricerca o ricaricare la pagina per nuove richieste!";
+            echo "<p> Nessuna richiesta nell'area selezionata! </p>
+                <p> Potresti aver già risposto a tutte le richieste disponibili, </p> 
+                <p>prova ad allargare l'area di ricerca o ricaricare la pagina per nuove richieste!</p>";
         }
     }
 }

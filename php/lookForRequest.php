@@ -1,3 +1,8 @@
+<?php
+
+include '../php/connectDB.php';
+include '../php/getuser.php';
+                ?>
 <!DOCTYPE html>
 <html lang="it">
     <head>
@@ -6,11 +11,10 @@
         <script type="text/javascript" src="../js/getRequest.js"></script> 
     </head>
 <body>
-    <header>
-    
-    <img src="logo.png" alt="Logo"> <span>&nbsp;My website</span>
-
-   </header>
+<header>
+    <img class="imglogo" src="../img/logo.png" alt="Logo" > <span>&nbsp;</span>
+    <span class="usrwelcome">Benvenuto utente: <?php echo $currentuser . ' [' . $usertype . ']' ?></span>  
+</header>
    <nav>
     <ul>
       <li><a href="./indexImpresa.php">Home</a></li>
@@ -21,16 +25,19 @@
     </ul>
   </nav>
   <hr>
-    <h1>Richieste</h1> <br/>
-    <label for="area" >Mostra richieste disponibile nel</label>
+  <div class="mainContent"> 
+    <h1>Richieste</h1>
+    <div>
+    <label for="area" >Mostra richieste disponibili nella tua</label>
     <select name="area" id="area" >
         <option disabled selected value> -- Scegli l'area -- </option>
         <option value="Regione"> Regione </option>
         <option value="Provincia"> Provincia </option>
-        <option value="Comune"> Comune </option>
+        <option value="Comune"> Città </option>
     </select>
     &nbsp;
-    <input type="button" id="btnaggiorna" onclick="RequestsinArea()"> Aggiorna </input>
+    <input class="btn" type="button" id="btnaggiorna" onclick="RequestsinArea()" value="Cerca" />
+    </div>
     <div id="richieste">
     </div>
     <div id="dRisposta" style="display:none">
@@ -45,6 +52,6 @@
     </div>
     
     
-
+  </div>
 </body>
 </html>
