@@ -93,10 +93,10 @@ include '../php/getuser.php';
                     <h3>Modifica le tue informazioni personali </h3>
                     <p>* UserId non è modificabile </br> Inserisci la password nel campo 'Conferma password' per poter effettuare le modifiche!</p>
                     <?php
-                        /* include '../php/connectDB.php';
+                        /* include '../php/connectDB.php'; */
 
                         $connection = new connectDB();
-                        $pdo = $connection->getPDO();  */
+                        $pdo = $connection->getPDO();   
                          try{
                              if(!isset($_COOKIE["user"])) {
                                  echo "cookie non settato </br>" ;
