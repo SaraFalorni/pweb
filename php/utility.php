@@ -1,5 +1,5 @@
 <?php
-
+//per il salvataggio sicuro della password
 
     function generateRandomSalt() {
     

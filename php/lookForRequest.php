@@ -17,10 +17,9 @@ include '../php/getuser.php';
 </header>
    <nav>
     <ul>
-      <li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
-      <li><a href="./archivio.php">Archivio Risposte</a></li>
-      <li><a href="./areaPersonale.php">Area Personale</a></li>
-      <li><a href="../index.html" id="logoutButton"> Logout </a></li>
+        <?php
+            include '../php/header.php';
+        ?>
     </ul>
   </nav>
   <hr>

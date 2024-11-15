@@ -23,7 +23,7 @@ try{
   }
     catch(PDOException | Exception $e) {
       $emess = $e->getMessage();
-      $erroreinserimento = "C'è stato un errore nell'accedere all'archivio </br>";
+      $erroreinserimento = "C'è stato un errore </br>";
       echo $erroreinserimento ;
       echo $emess;
   }

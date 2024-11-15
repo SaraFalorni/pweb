@@ -18,11 +18,9 @@ include '../php/getuser.php';
 </header>
    <nav>
     <ul>
-      <li><a href="./lookForRisposte.php" id="lookForRisp" >Risposte ricevute</a></li>
-      <li><a href="./archivio.php">Archivio Richieste</a></li>
-      <li><a href="./areaPersonale.php">Area Personale</a></li>
-      <li><a href="./NuovaRichiesta.php">Nuova richiesta</a></li>
-      <li><a href="../index.html" id="logoutButton"> Logout </a></li>
+            <?php
+                include '../php/header.php';
+            ?>
     </ul>
   </nav>
   <hr>
