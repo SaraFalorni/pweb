@@ -2,7 +2,6 @@
 
 class connectDB{
     public $pdo;
-    //$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     function __construct(){
         try {
@@ -28,5 +27,7 @@ class connectDB{
         $this->pdo = null;
     }
 }
+
+
 
 ?>

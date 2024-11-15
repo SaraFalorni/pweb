@@ -3,13 +3,12 @@
 include '../php/connectDB.php';
 include '../php/getuser.php';
                 ?>
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
         <link rel="stylesheet" type="text/css" href="../css/nuovaRichiesta.css"> 
-    <!-- ***    <script type="text/javascript" src="../js/nuovaRichiesta.js"></script> -->
         <script type="text/javascript" src="../js/location.js"></script> 
     </head>
 <body>
@@ -19,7 +18,6 @@ include '../php/getuser.php';
 </header>
    <nav>
     <ul>
-      <li><a href="./indexCliente.php">Home</a></li>
       <li><a href="./lookForRisposte.php" id="lookForRisp" >Risposte ricevute</a></li>
       <li><a href="./archivio.php">Archivio Richieste</a></li>
       <li><a href="./areaPersonale.php">Area Personale</a></li>
@@ -48,10 +46,7 @@ include '../php/getuser.php';
         </select> </br>
        
             <?php 
-                /*include '../php/connectDB.php';
                 
-                $connection = new connectDB();
-                $pdo = $connection->getPDO();*/
                 
                 try{
                 
@@ -67,17 +62,6 @@ include '../php/getuser.php';
                     }
                     echo ' </select> </br> ';
 
-                        echo 'Provincia </br> <select id="selProvincia" name="selProvincia" class="infoMobile"> <option disabled selected value> -- Scegli la provincia -- </option>' ;
-                        $sql = "SELECT Provincia FROM Comune GROUP BY Provincia ORDER BY Provincia";
-                        $statement = $pdo->prepare($sql);
-                        $statement->execute();
-                        $row = $statement->fetch();
-                        if($row) {
-                            do {
-                                 echo '<option value=' . $row['Provincia'] . '>' . $row['Provincia']. '</option>' ;
-                            } while( $row = $statement->fetch());
-                        }
-                        echo ' </select> </br> ';
                 }
                 
                 catch(PDOException | Exception $e) {
@@ -90,15 +74,15 @@ include '../php/getuser.php';
                 $connection->close();
                 $pdo = null;
             ?>
-         Provincia 2</br>  <!-- *** -->
+         Provincia </br>  <!-- *** -->
                 <select name="Provincia" id="Provincia" onfocus="findProvincia('selRegione');" >
                     <option disabled selected value> -- Scegli la provincia -- </option>                    
                 </select>
                 </br>
-                </br>
         Comune </br> <select id="selComune" name="selComune" class="infoMobile" onfocus="LoadComuni('selComune');" >
             <option disabled selected value> -- Scegli il comune -- </option>
         </select> </br>
+        Indirizzo <br/> <input type="text" class="UserInput testoesteso" name="indirizzo"> <br/>   
         Hai qualcosa da aggiungere? Scrivi qui! </br> <textarea type="textarea" id="iMessRichiesta" name="iMessRichiesta" class="infoMobile"> </textarea> </br>
         Foto del mobile ? (montato, smontato) </br> 
         <input type="file" class="btn-secondario" id="iFotoMobile" name="iFotoMobile" class="infoMobile"> </input> </br>
@@ -107,7 +91,7 @@ include '../php/getuser.php';
         </br></div><input type="text" id="iLinkMobile" name="iLinkMobile" class="infoMobile"> </input>
         </br>
 
-        <input class="btn btn-secondario" type="submit" id="subNewRic"> </input>
+        <input class="btn btn-secondario" type="submit" id="subNewRic" value="Invia richiesta!"> </input>
     </form>
   </div>
 </body>

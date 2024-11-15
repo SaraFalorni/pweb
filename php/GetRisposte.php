@@ -34,16 +34,16 @@ try{
         if($row) {
             do {
                     echo ' <div id="divRisposta'.$row['IDRisposta'].'">'.
-                    '<h4><b>Risposta</b> #'.$row['IDRisposta'].'</h4> '.
-                    '<p><strong>Impresa</strong>: '.$row['Nome'].'</p>'. 
-                    '<p><strong>Referente</strong>: '.$row['CognomeResponsabile'].', '.$row['NomeResponsabile'].'</p>'.
-                    '<p><strong>Descrizione</strong>: '.$row['Descrizione'].'</p>'. 
-                    '<p><strong>Localizzazione</strong>: '.$row['ComuneNome'].'/'.$row['Provincia'].'/'.$row['Regione'].'</p>'. 
-                    '<p><strong>Messaggio per te</strong>: '.$row['MessaggioRisposta'].'</p>'.
-                    '<input class=\'btn\' type = "button" id="bAccetta'. $row['IDRichiesta'] . '" value="Accetta" onclick="ChangeRispostaStatus( \'accettata\', '. $row['IDRichiesta'] . ' )"></input>&nbsp;' . 
-                    '<input class=\'btn\' type = "button" id="bRifiuta'. $row['IDRichiesta'] . '" value="Rifiuta" onclick="ChangeRispostaStatus(\'rifiutata\', '. $row['IDRichiesta'] . ' )"></input>' . 
-                    '<input class=\'btn\' type="hidden" id="IHRisposta'. $row['IDRichiesta'] . '" name="IHRisposta'. $row['IDRichiesta'] . '" value = "'.$row['IDRisposta'].'" > </input> '. 
-                    '<p>Clicca <a href="checkRecensioni.php?utente='.$row['UtenteRisposta'].'">qui </a> per leggere le recensioni ricevute da '. $row['NomeResponsabile'].' '. $row['CognomeResponsabile'] . '</p> </div>' ;
+                        '<h4><b>Risposta</b> #'.$row['IDRisposta'].'</h4> '.
+                        '<p><strong>Impresa</strong>: '.$row['Nome'].'</p>'. 
+                        '<p><strong>Referente</strong>: '.$row['CognomeResponsabile'].', '.$row['NomeResponsabile'].'</p>'.
+                        '<p><strong>Descrizione</strong>: '.$row['Descrizione'].'</p>'. 
+                        '<p><strong>Localizzazione</strong>: '.$row['ComuneNome'].'/'.$row['Provincia'].'/'.$row['Regione'].'</p>'. 
+                        '<p><strong>Messaggio per te</strong>: '.$row['MessaggioRisposta'].'</p>'.
+                        '<input class=\'btn\' type = "button" id="bAccetta'. $row['IDRichiesta'] . '" value="Accetta" onclick="ChangeRispostaStatus( \'accettata\', '. $row['IDRichiesta'] . ' );HideButtons('.$row['IDRichiesta'].');"></input>&nbsp;' . 
+                        '<input class=\'btn\' type = "button" id="bRifiuta'. $row['IDRichiesta'] . '" value="Rifiuta" onclick="ChangeRispostaStatus(\'rifiutata\', '. $row['IDRichiesta'] . ' );HideButtons('.$row['IDRichiesta'].');"></input>' . 
+                        '<input class=\'btn\' type="hidden" id="IHRisposta'. $row['IDRichiesta'] . '" name="IHRisposta'. $row['IDRichiesta'] . '" value = "'.$row['IDRisposta'].'" > </input> '. 
+                        '<p>Clicca <a href="checkRecensioni.php?utente='.$row['UtenteRisposta'].'">qui </a> per leggere le recensioni ricevute da '. $row['NomeResponsabile'].' '. $row['CognomeResponsabile'] . '</p> </div>' ;
 
             } while( $row = $statement->fetch());
         }

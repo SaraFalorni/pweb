@@ -17,7 +17,7 @@ try{
     $sql = 0;
 
     if($area == 'Regione') {
-        $sql = "SELECT * 
+        $sql = "SELECT IDRichiesta, Utente, TipoMobile, FasciaOraria,MessaggioNote, LinkRichiesta, (SELECT C.Comune FROM Comune C WHERE C.id = R.Comune) AS Comune
                 FROM Richiesta R                          
                 WHERE  R.Regione = (SELECT Regione
                                     FROM Comune C 
@@ -30,7 +30,7 @@ try{
                         AND StatoRichiesta = 'inviata' ";
     }
     else if($area == 'Provincia') {
-        $sql = "SELECT * 
+        $sql = "SELECT IDRichiesta, Utente, TipoMobile, FasciaOraria,MessaggioNote, LinkRichiesta, (SELECT C.Comune FROM Comune C WHERE C.id = R.Comune) AS Comune
                 FROM Richiesta R                          
                 WHERE  R.Provincia = (SELECT Provincia
                                     FROM Comune C 
@@ -43,7 +43,7 @@ try{
                         AND StatoRichiesta = 'inviata' ";
     }
     else if($area == 'Comune') {
-        $sql = "SELECT * 
+        $sql = "SELECT IDRichiesta, Utente, TipoMobile, FasciaOraria,MessaggioNote, LinkRichiesta, (SELECT C.Comune FROM Comune C WHERE C.id = R.Comune) AS Comune 
                 FROM Richiesta R                           
                 WHERE R.Comune = (SELECT Comune
                                   FROM Comune C 
@@ -55,7 +55,11 @@ try{
                                         WHERE R.IDRichiesta = T.Richiesta AND T.Utente = :utente1)
                         AND StatoRichiesta = 'inviata' ";
     }
-    
+
+    if( !$area ) {
+        echo '<p>Non hai selezionato nessuna area di ricerca.</p> ';
+    }
+    else {
         $statement = $pdo->prepare($sql);
         $statement->bindValue(':utente', $user);
         $statement->bindValue(':utente1', $user);
@@ -66,7 +70,15 @@ try{
                  echo '<div class="richiestaincerca" id="richiesta'.$row['IDRichiesta'].'"> 
                        <p>Richiesta <b>#'.$row['IDRichiesta'].'</b> di <b>' . $row['Utente'] . '</b></p>
                        <p>per il montaggio di: <b>'. $row['TipoMobile'] . '</b></p>
-                      <p>Rispondi alla richiesta!&nbsp;<input type="button" id="btnrispondi" onclick="openFormRisp('
+                       <p>nel comune di: <b>'. $row['Comune'] . '</b></p>
+                       <p>nella fascia oraria: <b>'. $row['FasciaOraria'] . '</b></p>
+                       <p>' . $row['Utente'] . ' scrive: <b>'. $row['MessaggioNote'] . '</b></p>';
+
+                if($row['LinkRichiesta']) {
+                    echo '<p><a href="'. $row['LinkRichiesta'] . '">link al mobile </a> </p>';
+                }
+
+                 echo '<p>Rispondi alla richiesta!&nbsp;<input type="button" id="btnrispondi" onclick="openFormRisp('
                       . $row['IDRichiesta'] .', \''. $user .'\' )" class="btn btn-smaller" value="Rispondi"></input> </p>' . 
                       '<input type="hidden" id= "iIDRichiesta" name= "iIDRichiesta'.$row['IDRichiesta'].'" value="'. $row['IDRichiesta'] . '" > </input>' . 
                       '<input type="hidden" id= "iIDUser" name= "iIDUser'.$user.'" value="'. $user . '" > </input>' .'</div>'. 
@@ -79,11 +91,14 @@ try{
                 <p>prova ad allargare l'area di ricerca o ricaricare la pagina per nuove richieste!</p>";
         }
     }
+
+        
+    }
 }
 
 catch(PDOException | Exception $e) {
     $emess = $e->getMessage();
-     $erroreinserimento = "C'è stato un errore  </br>";
+     $erroreinserimento = "C'è stato un errore nel cercare le richieste disponibili </br>";
      echo $erroreinserimento ;
      echo $emess;
  }

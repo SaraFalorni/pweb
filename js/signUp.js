@@ -29,17 +29,30 @@ function checkPasswordString() {
 
 
 function checkBirthDate() {
-   /*var birthDate = document.getElementById("birthDate").value;
+    // Ricava la data di nascita dall'input come timestamp e convertila in un oggetto Date
+    var birthdayTimestamp = Date.parse(document.getElementById("birthDate").value);
+    var birthday = new Date(birthdayTimestamp);
+
+    // Ottieni la data odierna come oggetto Date
     var today = new Date();
     var tyear = today.getFullYear();
-    if( (tyear - birthDate.getFullYear()) < 18) {
-        document.getElementById("errorBirthDate").style.display = "block";
-    }
-    else
-        document.getElementById("errorBirthDate").style.display = "none";  
-    ***
-        */ 
 
+    var bdate = document.getElementById("birthDate");
+    // Calcola l'età
+    if ((tyear - birthday.getFullYear()) < 18) {
+        document.getElementById("errorBirthDate").style.display = "block";
+        var styles = '#birthDate {border: solid 2px red;}';
+        var styleSheet = document.createElement("style");
+        styleSheet.textContent = styles;
+        bdate.appendChild(styleSheet);
+        
+    } else {
+        document.getElementById("errorBirthDate").style.display = "none"; 
+        var styles = '#birthDate {border: solid 2px rgb(16, 16, 155);}';
+        var styleSheet = document.createElement("style");
+        styleSheet.textContent = styles;
+        bdate.appendChild(styleSheet); 
+    }
 }
 
 

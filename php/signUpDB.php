@@ -1,13 +1,14 @@
 <?php 
 
 include './connectDB.php';
+include './utility.php';
 
 $connection = new connectDB();
 $pdo = $connection->getPDO();
 
 try {
 
-    $clientValues = ['UserID', 'nome', 'cognome','email','pwd','cpwd','birthDate','indirizzo'];
+    $clientValues = ['UserID', 'nome', 'cognome','email','pwd','cpwd','birthDate'];
 
     foreach($clientValues as $cv) {
         if($_POST[$cv] == '') {
@@ -29,6 +30,12 @@ try {
     if ($_POST['pwd'] != $_POST['cpwd'] ) {
        throw new Exception("conferma password errata");
     }
+    $birthday = new DateTime($_POST['birthDate']);
+    $today = new DateTime();
+    $age = $today->diff($birthday)->y;
+    if ($age < 18) {
+        throw new Exception("data di nascita non valida");
+     }
 
     
 
@@ -40,26 +47,26 @@ try {
     $pwd = $_POST['pwd'];
     $cpwd = $_POST['cpwd'];
     $birthDate = $_POST['birthDate'];
-    $indirizzo = $_POST['indirizzo'];
-    $foto = $_POST['foto'];
+
 
     $idimpresa = NULL;
     
     //se è con impresa va inserita anche l'impresa nel database
     
-    
 
-    $sql = "INSERT INTO Utente VALUES (:userID, :nome, :cognome, :email, :pwd, :birthdate, :indirizzo, :foto)";
+    //sicurezza password
+    $salt = generateRandomSalt();
+
+    $sql = "INSERT INTO Utente VALUES (:userID, :nome, :cognome, :email, MD5(:pwd), :birthdate, :salt)";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue( ':userID', $UserID);
     $statement->bindValue( ':nome', $nome);
     $statement->bindValue( ':cognome', $cognome);
     $statement->bindValue( ':email', $email);
-    $statement->bindValue( ':pwd', $pwd);
+    $statement->bindValue( ':pwd', $pwd.$salt);
     $statement->bindValue( ':birthdate', $birthDate);
-    $statement->bindValue( ':indirizzo', $indirizzo);
-    $statement->bindValue( ':foto', $foto);
+    $statement->bindValue( ':salt', $salt);
     $statement->execute();
 
     $usertype = $_POST['UserType'];
@@ -73,10 +80,6 @@ try {
                 throw new Exception("no input nel campo $cv </br>");
             }
         };
-
-        /*if (!$_POST['nomeImpresa']) {
-            throw new Exception("Credenziali sbagliate </br>");
-        }*/
 
         $nomeimpresa = $_POST['nomeImpresa'];
         $comune = $_POST['Comune'];
@@ -93,8 +96,7 @@ try {
 
     }
 
-    header("Location:login.php");
-    exit();
+    
 
 }
 
@@ -111,3 +113,34 @@ $connection->close();
 $pdo = null;
 
 ?>
+
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/LookForRisposte.css">
+        <link rel="stylesheet" type="text/css" href="../css/login.css">
+    
+        <script type="text/javascript" src="../js/location.js"></script> 
+    </head>
+<body>
+<header>
+    <img class="imglogo" src="../img/logo.png" alt="Logo" > <span>&nbsp;</span>
+</header>
+   <nav>
+    <ul>
+      <li><a href="..../index.html">Home</a></li>
+      <li><a href="./signUp.html">Registrati</a></li>
+      <li><a href="../html/login.html">Accedi</a></li>
+    </ul>
+  </nav>
+  <div class="loginmainContent">
+    <div class="card" style="position">
+        <div class="container">
+            <p> La tua registrazione è andata a buon fine. </br> Clicca <a href="../html/login.html">qui</a> per fare il login. </p>
+        </div>
+    </div>
+    
+  </div>
+

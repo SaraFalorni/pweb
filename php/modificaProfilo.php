@@ -7,7 +7,7 @@ $pdo = $connection->getPDO();
 
 try {
 
-    $clientValues = ['nome', 'cognome','email','pwd','cpwd','birthDate','indirizzo'];
+    $clientValues = ['nome', 'cognome','email','pwd','cpwd','birthDate'];
 
     foreach($clientValues as $cv) {
         if($_POST[$cv] == '') {
@@ -36,7 +36,6 @@ try {
     $pwd = $_POST['pwd'];
     $cpwd = $_POST['cpwd'];
     $birthDate = $_POST['birthDate'];
-    $indirizzo = $_POST['indirizzo'];
     $foto = $_POST['foto'];
 
     $idimpresa = NULL;
@@ -45,7 +44,7 @@ try {
     
     
 
-    $sql = "UPDATE Utente SET Nome = :nome, Cognome = :cognome, Email = :email, Pwd = :pwd, DataNascita = :birthdate, Indirizzo = :indirizzo, FotoUser = :foto WHERE UserID = :userID";
+    $sql = "UPDATE Utente SET Nome = :nome, Cognome = :cognome, Email = :email, Pwd = :pwd, DataNascita = :birthdate WHERE UserID = :userID";
 
     $statement = $pdo->prepare($sql);
     $statement->bindValue( ':userID', $UserID);
@@ -54,8 +53,6 @@ try {
     $statement->bindValue( ':email', $email);
     $statement->bindValue( ':pwd', $pwd);
     $statement->bindValue( ':birthdate', $birthDate);
-    $statement->bindValue( ':indirizzo', $indirizzo);
-    $statement->bindValue( ':foto', $foto);
     $statement->execute();
 
     $usertype = $_POST['UserType'];
@@ -70,9 +67,6 @@ try {
             }
         };
 
-        /*if (!$_POST['nomeImpresa']) {
-            throw new Exception("Credenziali sbagliate </br>");
-        }*/
 
         $nomeimpresa = $_POST['nomeImpresa'];
         $comune = $_POST['Comune'];

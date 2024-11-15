@@ -17,7 +17,6 @@ include '../php/getuser.php';
 </header>
    <nav>
     <ul>
-      <li><a href="./indexImpresa.php">Home</a></li>
       <li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
       <li><a href="./archivio.php">Archivio Risposte</a></li>
       <li><a href="./areaPersonale.php">Area Personale</a></li>
@@ -46,8 +45,8 @@ include '../php/getuser.php';
         <textarea type="textarea" id="inRisposta" name="inRisposta"> </textarea> <br/>
         <input type="hidden" id="selRichiesta" name="selRichiesta"  > </input>
         <input type="hidden" id="selUser" name="selUser" > </input>
-        <button type="submit" class="btnChiudiRisposta" onclick="sendRisposta()" >Invia</button> &nbsp; 
-        <button type="button" class="btnChiudiRisposta" onclick="closeFormRisp()">Chiudi</button>
+        <button type="submit" class="btn btn-smaller" onclick="sendRisposta()" >Invia</button> &nbsp; 
+        <button type="button" class="btn btn-smaller" onclick="closeFormRisp()">Chiudi</button>
     </form>
     </div>
     

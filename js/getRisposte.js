@@ -29,9 +29,29 @@ function ChangeRispostaStatus(status,idRic) {
     { if (xhr.status === 200) 
             { var data = xhr.responseText; 
                 console.log(data);
-                ris.innerHTML = data;
+                //ris.innerHTML = data;
+                const div1 = document.getElementById('ric'+idRic);
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'card';
+                cardDiv.style.position = 'relative'; 
+                const containerDiv = document.createElement('div');
+                containerDiv.className = 'container';
+                const par = document.createElement('p');
+                par.innerHTML = 'La risposta è stata '+ status + '<br> Clicca <a href="./archivio.php">qui</a> per visualizzare il riepilogo.';
+                containerDiv.appendChild(par);
+                cardDiv.appendChild(containerDiv);
+                div1.appendChild(cardDiv);
            // }
       } 
     }; 
-    xhr.send(params); 
+    xhr.send(params);     
+
 }
+
+function HideButtons(id) {
+    var $buttonAccetta = document.getElementById('bAccetta'+id);
+    var $buttonRifiuta = document.getElementById('bRifiuta'+id);
+    $buttonAccetta.style.display = 'none'; 
+    $buttonRifiuta.style.display = 'none';
+ 
+ };

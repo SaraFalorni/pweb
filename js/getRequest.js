@@ -16,6 +16,9 @@ function RequestsinArea() {
 }
 
 function openFormRisp(idRichiesta,idUser) {
+   var divRisp = document.getElementById("dRisposta");
+   var divRic = document.getElementById("richiesta"+idRichiesta);
+   divRic.appendChild(divRisp);
    document.getElementById("dRisposta").style.display = "block";
    document.getElementById('selRichiesta').value = idRichiesta;
    document.getElementById('selUser').value = idUser;
@@ -28,9 +31,5 @@ function closeFormRisp() {
 
 function sendRisposta() {
     document.getElementById("dRisposta").style.display = "none";
-    var newDiv = document.createElement('div');
-    newDiv.id = 'divRispInviata';
-    newDiv.innerHTML = "<p>Risposta inviata con successo! </p>";
-    var div = document.getElementById("richiesta");
-    div.appendChild(newDiv);
+    
 }

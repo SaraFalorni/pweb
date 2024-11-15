@@ -27,6 +27,7 @@ try{
         $statement->bindValue( ':idRisp', $idRisp);
         $statement->execute();
     }
+
     
 }  
 
@@ -41,3 +42,6 @@ $connection->close();
 $pdo = null;
 
 ?>
+
+
+

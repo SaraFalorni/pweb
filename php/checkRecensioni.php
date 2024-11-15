@@ -18,7 +18,6 @@ include '../php/getuser.php';
 </header>
    <nav>
     <ul>
-      <li><a href="./indexCliente.php">Home</a></li>
       <li><a href="./lookForRisposte.php" id="lookForRisp" >Risposte ricevute</a></li>
       <li><a href="./archivio.php">Archivio Richieste</a></li>
       <li><a href="./areaPersonale.php">Area Personale</a></li>
@@ -32,48 +31,48 @@ include '../php/getuser.php';
 <?php 
 
 
-$connection = new connectDB();
-$pdo = $connection->getPDO();
+  $connection = new connectDB();
+  $pdo = $connection->getPDO();
 
-try{
-    $utente = $_GET['utente'];
+  try{
+      $utente = $_GET['utente'];
 
-    echo '<h1>Recensioni ricevute da '.$utente.' </h1> <br/>';
+      echo '<h1>Recensioni ricevute da '.$utente.' </h1> <br/>';
 
-    $sql = " SELECT A.IDRecensione, A.Recensore, A.TestoRecensione, A.Rating, B.TipoMobile
-             FROM Recensione A INNER JOIN Richiesta B ON A.RichiestaRecensita = B.IDRichiesta
-             WHERE Recensito = :utente";
-    $statement = $pdo->prepare($sql);
-    $statement->bindValue(':utente', $utente);
-    $statement->execute();
-    $row = $statement->fetch();
-    if($row) {
-        do {
-            echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
-            '<div class="container">'. 
-             '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
-             .'<p><strong>Recensore: </strong>'.$row['Recensore'].'</p>'
-             .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
-             .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
-             .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
-             .'</div></div><div class="separatore"></div>';
+      $sql = " SELECT A.IDRecensione, A.Recensore, A.TestoRecensione, A.Rating, B.TipoMobile
+              FROM Recensione A INNER JOIN Richiesta B ON A.RichiestaRecensita = B.IDRichiesta
+              WHERE Recensito = :utente";
+      $statement = $pdo->prepare($sql);
+      $statement->bindValue(':utente', $utente);
+      $statement->execute();
+      $row = $statement->fetch();
+      if($row) {
+          do {
+              echo '<div id="divRecensione'. $row['IDRecensione'].'" class="card">'.
+                '<div class="container">'. 
+                '<h4> Recensione #'.$row['IDRecensione'].'</h4>'
+                .'<p><strong>Recensore: </strong>'.$row['Recensore'].'</p>'
+                .'<p><strong>Tipo di mobile: </strong>'.$row['TipoMobile'].'</p>'
+                .'<p><strong>Rating: </strong>'.$row['Rating'].'</p>'
+                .'<p><strong>Testo: </strong>'.$row['TestoRecensione'].'</p>'
+                .'</div></div><div class="separatore"></div>';
 
-        } while( $row = $statement->fetch());
-    }
-    else {
-        echo '<p> L\'utente '. $utente .' non ha ancora ricevuto recensioni. </p>';
-    }
-}
+          } while( $row = $statement->fetch());
+      }
+      else {
+          echo '<p> L\'utente '. $utente .' non ha ancora ricevuto recensioni. </p>';
+      }
+  }
 
-catch(PDOException | Exception $e) {
-    $emess = $e->getMessage();
-     $erroreinserimento = "C'è stato un errore nella ricerca delle recensioni</br>";
-     echo $erroreinserimento ;
-     echo $emess;
- }
+  catch(PDOException | Exception $e) {
+      $emess = $e->getMessage();
+      $erroreinserimento = "C'è stato un errore nella ricerca delle recensioni</br>";
+      echo $erroreinserimento ;
+      echo $emess;
+  }
 
-$connection->close();
-$pdo = null;
+  $connection->close();
+  $pdo = null;
 
 ?>
 
