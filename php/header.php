@@ -17,7 +17,7 @@
         else if($usertype == 'impresa') {
             //index impresa
             echo   '<li><a href="./lookForRequest.php" id="lookForReq" >Cerca nuove richieste</a></li>
-                    <li><a href="./areaPersonale.php">Archivio Risposte</a></li>
+                    <li><a href="./archivio.php">Archivio Risposte</a></li>
                     <li><a href="./areaPersonale.php">Area Personale</a></li>
                     <li><a href="./deleteCookie.php" id="logoutButton" > Logout </a></li>';
         }
