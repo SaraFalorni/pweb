@@ -1,6 +1,7 @@
 <?php 
 
 include './connectDB.php';
+include '../php/getuser.php';
 
 $connection = new connectDB();
 $pdo = $connection->getPDO();
@@ -14,27 +15,45 @@ try {
             throw new Exception("no input nel campo $cv ");
         }
     };
+
+    $sql = "SELECT pwd, salt FROM Utente WHERE UserID = :userID";
+
+    $statement = $pdo->prepare($sql);
+    $statement->bindValue( ':userID', $currentuser);
+    $statement->execute();
+    $row = $statement->fetch();
+    $salt = $row['salt'];
+    $oldpwdsalted = $row['pwd'];
+
+    $pwd = $_POST['pwd'];
+    $cpwd = $_POST['cpwd'];
+
+    $sql = "SELECT MD5(:pwd) AS Newpwdsalted, MD5(:cpwd) AS Newcpwdsalted";
+
+    $statement = $pdo->prepare($sql);
+    $statement->bindValue( ':pwd', $pwd.$salt);
+    $statement->bindValue( ':cpwd', $cpwd.$salt);
+    $statement->execute();
+    $row = $statement->fetch();
+
+    $newpwdsalted = $row['Newpwdsalted'];
+    $newcpwdsalted = $row['Newcpwdsalted'];
     
     //verifica che gli input siano nel formato voluto
-    if (strlen($_POST['pwd']) < 7) {
+    if (strlen($pwd) < 7) {
         throw new Exception("password troppo corta");
     }
-    if ($_POST['pwd'] != $_POST['cpwd'] ) {
+    if ($pwd != $cpwd ) {
        throw new Exception("conferma password errata");
     }
-
-    if(!isset($_COOKIE["user"])) {
-        echo "cookie non settato </br>" ;
+    if ($pwd == $cpwd && $newpwdsalted != $oldpwdsalted) {
+        throw new Exception("password errata");
     }
-    else {
-    $UserID = $_COOKIE["user"]; } 
 
     //prendo i dati inseriti dall'utente
     $nome = $_POST['nome'];
     $cognome = $_POST['cognome'];
     $email = $_POST['email'];
-    $pwd = $_POST['pwd'];
-    $cpwd = $_POST['cpwd'];
     $birthDate = $_POST['birthDate'];
     $foto = $_POST['foto'];
 
@@ -44,18 +63,17 @@ try {
     
     
 
-    $sql = "UPDATE Utente SET Nome = :nome, Cognome = :cognome, Email = :email, Pwd = :pwd, DataNascita = :birthdate WHERE UserID = :userID";
+    $sql = "UPDATE Utente SET Nome = :nome, Cognome = :cognome, Email = :email, Pwd = MD5(:pwd), DataNascita = :birthdate WHERE UserID = :userID";
 
     $statement = $pdo->prepare($sql);
-    $statement->bindValue( ':userID', $UserID);
+    $statement->bindValue( ':userID', $currentuser);
     $statement->bindValue( ':nome', $nome);
     $statement->bindValue( ':cognome', $cognome);
     $statement->bindValue( ':email', $email);
-    $statement->bindValue( ':pwd', $pwd);
+    $statement->bindValue( ':pwd', $pwd.$salt);
     $statement->bindValue( ':birthdate', $birthDate);
     $statement->execute();
 
-    $usertype = $_POST['UserType'];
     echo $usertype." in più </br>";
     if( $usertype == 'impresa') {
 
@@ -78,7 +96,7 @@ try {
         $statement->bindValue( ':nomeimpresa', $nomeimpresa);
         $statement->bindValue( ':bio', $bio);
         $statement->bindValue( ':comune', $comune);
-        $statement->bindValue( ':UserID', $UserID);
+        $statement->bindValue( ':UserID', $currentuser);
         $statement->execute();
 
     }

@@ -8,6 +8,7 @@ include '../php/getuser.php';
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="../css/homepage.css"> 
+        <link rel="stylesheet" type="text/css" href="../css/lookForRequest.css"> 
         <script type="text/javascript" src="../js/getRequest.js"></script> 
     </head>
 <body>
@@ -23,33 +24,19 @@ include '../php/getuser.php';
     </ul>
   </nav>
   <hr>
-  <div class="mainContent"> 
+  <div id = "mainContents" class="mainContent"> 
     <h1>Richieste</h1>
     <div>
-    <label for="area" >Mostra richieste disponibili nella tua</label>
-    <select name="area" id="area" >
-        <option disabled selected value> -- Scegli l'area -- </option>
-        <option value="Regione"> Regione </option>
-        <option value="Provincia"> Provincia </option>
-        <option value="Comune"> Città </option>
-    </select>
+        <label for="areatype" >Mostra richieste disponibili nella tua</label>
+        <select name="areatype" id="areatype" >
+            <option disabled selected value> -- Scegli l'area -- </option>
+            <option value="Regione"> Regione </option>
+            <option value="Provincia"> Provincia </option>
+            <option value="Comune"> Città </option>
+        </select>
     &nbsp;
-    <input class="btn" type="button" id="btnaggiorna" onclick="RequestsinArea()" value="Cerca" />
+        <input class="btn" type="button" id="btnaggiorna" onclick="RequestsinArea(<?php echo ' \' ' . $currentuser . ' \' '?>)" value="Cerca" />
     </div>
-    <div id="richieste">
-    </div>
-    <div id="dRisposta" style="display:none">
-    <form id="formRisposta" action="./sendRisposta.php" method="POST">
-        Scrivi qualcosa che vuoi far sapere al cliente! (richieste particolari, messaggi etc.) <br/>
-        <textarea type="textarea" id="inRisposta" name="inRisposta"> </textarea> <br/>
-        <input type="hidden" id="selRichiesta" name="selRichiesta"  > </input>
-        <input type="hidden" id="selUser" name="selUser" > </input>
-        <button type="submit" class="btn btn-smaller" onclick="sendRisposta()" >Invia</button> &nbsp; 
-        <button type="button" class="btn btn-smaller" onclick="closeFormRisp()">Chiudi</button>
-    </form>
-    </div>
-    
-    
-  </div>
+    <div id="divrichieste">
 </body>
 </html>

@@ -4,7 +4,7 @@ ON SCHEDULE EVERY 2 HOUR
 DO
 	UPDATE Richiesta
     SET StatoRichiesta = 'scaduta'
-    WHERE DataRichiesta = CURRENT_DATE() AND RispostaAccettata IS NULL 
+    WHERE DataRichiesta <= CURRENT_DATE() AND RispostaAccettata IS NULL 
 		AND (
 				(FasciaOraria = '8:00 - 10:00' AND HOUR(NOW()) >= 8) 
 			 OR (FasciaOraria = '10:00 - 12:00' AND HOUR(NOW()) >= 10) 
@@ -20,7 +20,7 @@ ON SCHEDULE EVERY 2 HOUR
 DO
 	UPDATE Richiesta
     SET StatoRichiesta = 'conclusa'
-    WHERE DataRichiesta = CURRENT_DATE() AND RispostaAccettata IS NOT NULL 
+    WHERE DataRichiesta <= CURRENT_DATE() AND RispostaAccettata IS NOT NULL 
 		AND (
 				(FasciaOraria = '8:00 - 10:00' AND HOUR(NOW()) >= 10) 
 			 OR (FasciaOraria = '10:00 - 12:00' AND HOUR(NOW()) >= 12) 
@@ -36,7 +36,7 @@ ON SCHEDULE EVERY 2 HOUR
 DO
 	UPDATE Risposta
     SET StatoRisposta = 'scaduta'
-    WHERE CURRENT_DATE() = (SELECT DataRichiesta
+    WHERE CURRENT_DATE() <= (SELECT DataRichiesta
 							FROM Richiesta
                             WHERE IDRichiesta = Risposta.Richiesta AND
 								(
@@ -56,7 +56,7 @@ ON SCHEDULE EVERY 2 HOUR
 DO
 	UPDATE Risposta
     SET StatoRisposta = 'conclusa'
-    WHERE CURRENT_DATE() = (SELECT DataRichiesta
+    WHERE CURRENT_DATE() <= (SELECT DataRichiesta
 							FROM Richiesta
                             WHERE IDRichiesta = Risposta.Richiesta  AND
 								(

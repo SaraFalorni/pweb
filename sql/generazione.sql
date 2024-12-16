@@ -6,6 +6,7 @@ CREATE TABLE Comune (
 	id VARCHAR(4) NOT NULL,
     Comune VARCHAR(255),
     Provincia VARCHAR(255),
+	Regione VARCHAR(255),
     PRIMARY KEY (id) 
 );
 
@@ -27,26 +28,26 @@ CREATE TABLE Utente (
     Email VARCHAR(255),
     Pwd VARCHAR(128),
     DataNascita DATE,
-    Indirizzo VARCHAR(255),
-    FotoUser VARCHAR(255),
+    salt VARCHAR(255),
     PRIMARY KEY (UserID)
 );
 
 
 -- Tabella: Recensione
 CREATE TABLE Recensione (
-    IDRecensione INT NOT NULL,
+    IDRecensione INT NOT NULL AUTO_INCREMENT,
     Recensore VARCHAR(30) NOT NULL,
     Recensito VARCHAR(30) NOT NULL,
     TestoRecensione VARCHAR(255),
     Rating INT NOT NULL,
+    RichiestaRecensita INT NOT NULL,
     PRIMARY KEY (IDRecensione)
 );
 
 
 -- Tabella: Richiesta
 CREATE TABLE Richiesta (
-    IDRichiesta INT NOT NULL,
+    IDRichiesta INT NOT NULL AUTO_INCREMENT,
     TipoMobile VARCHAR(100),
     DataRichiesta DATE,
     FasciaOraria VARCHAR(15) NOT NULL,
@@ -59,18 +60,17 @@ CREATE TABLE Richiesta (
     LinkRichiesta VARCHAR(255),
     StatoRichiesta VARCHAR(30),
     RispostaAccettata INT,
-    TimeStampRichiesta DATETIME,
+    Indirizzo VARCHAR(255),
     PRIMARY KEY (IDRichiesta)
 );
 
 -- Tabella: Risposta
 CREATE TABLE Risposta (
-    IDRisposta INT NOT NULL,
+    IDRisposta INT NOT NULL AUTO_INCREMENT,
 	MessaggioRisposta VARCHAR(255),
-    StatoRichiesta VARCHAR(30),
+    StatoRisposta VARCHAR(30),
     Richiesta INT,
     Utente VARCHAR(30) NOT NULL,
-    TimeStampRisposta DATETIME,
     PRIMARY KEY (IDRisposta)
 );
 
@@ -106,4 +106,3 @@ ALTER TABLE Impresa
 	ADD CONSTRAINT FK_Impresa_Utente
     FOREIGN KEY (Responsabile) REFERENCES Utente(UserID);
     
-ALTER TABLE Comune ADD COLUMN Regione VARCHAR(50);

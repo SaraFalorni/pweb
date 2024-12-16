@@ -1,4 +1,8 @@
+<?php
 
+include '../php/connectDB.php';
+include '../php/getuser.php';
+                ?>
 <!DOCTYPE html>
 <html lang="it">
     <head>

@@ -1,18 +1,21 @@
 <?php 
 
 include '../php/connectDB.php';
-
-$connection = new connectDB();
-$pdo = $connection->getPDO();
+include '../php/class.richiesta.php';
+include '../php/class.risposta.php';
 
 try{
+    $richiesta = $_GET['richiesta'];
+
+    $rispPerRic = new RispostePerRichiesta($richiesta);
+    $rispPerRic->OutputRispostePerRichiesteCerca();
     
-    if(!isset($_COOKIE["user"])) {
+    /*if(!isset($_COOKIE["user"])) {
         echo "cookie non settato </br>" ;
     }
     else {
         $user = $_COOKIE["user"];
-        $richiesta = $_GET['richiesta'];
+        
         $accettata = 'accettata';
         $rifiutata = 'rifiutata';
 
@@ -50,7 +53,7 @@ try{
         else {
             echo " </br> Nessuna risposta per la richiesta selezionata! </br> ";
         }
-    }
+    }*/
 }
 
 catch(PDOException | Exception $e) {
@@ -59,8 +62,4 @@ catch(PDOException | Exception $e) {
      echo $erroreinserimento ;
      echo $emess;
  }
-
-$connection->close();
-$pdo = null;
-
 ?>

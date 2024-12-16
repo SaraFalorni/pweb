@@ -28,7 +28,7 @@ include '../php/getuser.php';
     <h2>Inserisci una nuova Richiesta!</h2> 
     <p id="descnuovaric">Riempi questo semplice modulo con le informazioni necessarie per garantire il miglior servizio possibile! </br>
         Una volta cliccato 'Invia' la tua richiesta sarà visibile alle imprese che, 
-        se disponibili, risponderanno confermando la loro accettazione della richiesta. </p>
+        se disponibili, risponderanno per proporsi di portarla a termine. </p>
     <form action="./newRichiesta.php" method="POST" id="fnewRic" name="fnewRic"> 
         Tipo di mobile </br> <div class="sottotitolo"> Cerca di essere più specifico possibile in modo semplice! </div><input type="text" id="iTipoMobile" name="iTipoMobile" class="infoMobile"> </input> </br>
         Data </br> <input type="date" id= "iDataRic" name= "iDataRic" class="infoMobile">  </input> </br> 

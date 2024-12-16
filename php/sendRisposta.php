@@ -9,7 +9,7 @@ $pdo = $connection->getPDO();
 try{
 
     $idRic = $_POST['selRichiesta'];
-    $idUser= $_POST['selUser'];
+    //$idUser= $_POST['selUser'];
     $risp= $_POST['inRisposta'];
     $stato = 'inviata';
 
@@ -20,7 +20,7 @@ try{
     $statement->bindValue(':risp', $risp);
     $statement->bindValue(':stato', $stato);
     $statement->bindValue(':idRic', $idRic);
-    $statement->bindValue(':idUser', $idUser);
+    $statement->bindValue(':idUser', $currentuser);
     $statement->execute();
 
 }
